@@ -12,6 +12,8 @@
 package org.usfirst.frc1735.Stronghold2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc1735.Stronghold2016.RobotMap;
 import org.usfirst.frc1735.Stronghold2016.Robot;
 
 /**
@@ -47,7 +49,10 @@ public class DriveWithLimits extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Grab initial encoder values here for distance limits
+    	//Grab the current encoder distance as the starting point
+    	m_leftStartDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
+    	m_rightStartDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
+
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -71,10 +76,14 @@ public class DriveWithLimits extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         boolean timedOut = isTimedOut(); // Check for timeout
-        // TODO:  Calculate if distance has completed
-        
-        // For now, just finish if the time limit has been reached
-        boolean finished = timedOut;
+        double currentLeftDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
+        double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
+        double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
+        double rightTravel = Math.abs(currentRightDistance - m_rightStartDistance);
+        //System.out.println("m_distanceLimit = " + m_distanceLimit);
+        //System.out.println("R distance traveled is " + rightTravel + " and L distance traveled is " + leftTravel);
+        boolean finished = (timedOut || (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit)));
+ 
         //System.out.println("isFinished returns status= " + finished);
         return finished;
         
@@ -91,4 +100,7 @@ public class DriveWithLimits extends Command {
     protected void interrupted() {
     	end();
     }
+    // Member Variables
+    double m_leftStartDistance;		// starting absolute distance from encoder
+    double m_rightStartDistance;	// starting absolute distance from encoder
 }
