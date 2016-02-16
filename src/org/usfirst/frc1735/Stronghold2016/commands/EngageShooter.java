@@ -39,12 +39,14 @@ public class EngageShooter extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	m_shooterStrength = Robot.shooterStrength;
+    	Robot.dbgPrintln("Shooter strength is set to " + m_shooterStrength);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	RobotMap.shooterLeftMotor.set(1);
-    	RobotMap.shooterRightMotor.set(-1);
+    	RobotMap.shooterLeftMotor.set(m_shooterStrength);
+    	RobotMap.shooterRightMotor.set(m_shooterStrength);
 
     }
 
@@ -64,4 +66,6 @@ public class EngageShooter extends Command {
     protected void interrupted() {
     	end();
     }
+    // member variables
+    double m_shooterStrength;
 }
