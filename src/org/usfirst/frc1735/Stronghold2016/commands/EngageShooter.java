@@ -45,9 +45,7 @@ public class EngageShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	RobotMap.shooterLeftMotor.set(m_shooterStrength);
-    	RobotMap.shooterRightMotor.set(m_shooterStrength);
-
+    	Robot.shooter.engageShooter(m_shooterStrength);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,8 +55,7 @@ public class EngageShooter extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.shooterLeftMotor.set(0);
-    	RobotMap.shooterRightMotor.set(0);
+    	Robot.shooter.stop();
     }
 
     // Called when another command which requires one or more of the same
