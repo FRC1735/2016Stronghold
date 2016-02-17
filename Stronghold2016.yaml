@@ -671,6 +671,27 @@ Children:
         name: Parameters
         validators: null
         value: []
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        default: &id017 []
+        name: Parameter presets
+        validators: null
+        value: *id017
+      Commands: !!robotbuilder.data.properties.ListProperty
+        default: &id018 []
+        name: Commands
+        validators: &id019 [List]
+        value: *id018
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: false}
+    Base: Command Group
+    Name: AutonomousDoNothing
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value: []
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: DriveTrain}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
@@ -683,7 +704,7 @@ Children:
     Base: Command
     Name: DriveWithJoysticks
   - Children: []
-    Properties: &id018
+    Properties: &id021
       Parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
         name: Parameters
@@ -750,10 +771,10 @@ Children:
       Commands: !!robotbuilder.data.properties.ListProperty
         default: []
         name: Commands
-        validators: &id019 [List]
+        validators: *id019
         value:
         - !!robotbuilder.data.CommandGroupEntry
-          command: &id020
+          command: &id022
             base:
               help: A command specifies an action that the robot can perform.
               name: Command
@@ -768,14 +789,14 @@ Children:
                 validators: null
                 value: []
               - !!robotbuilder.data.properties.ParameterSetProperty
-                default: &id017 []
+                default: &id020 []
                 name: Parameter presets
                 validators: null
-                value: *id017
+                value: *id020
               supports: {}
               type: Command
             name: DriveWithLimits
-            properties: *id018
+            properties: *id021
           hasMatch: true
           order: Sequential
           parameters:
@@ -812,7 +833,7 @@ Children:
         validators: *id019
         value:
         - !!robotbuilder.data.CommandGroupEntry
-          command: *id020
+          command: *id022
           hasMatch: true
           order: Sequential
           parameters:
@@ -920,7 +941,7 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Collector}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id021
+        default: &id023
         - !!robotbuilder.data.properties.ParameterSet
           name: Intake
           parameters:
@@ -931,7 +952,7 @@ Children:
           - {name: magnitudeDirection, type: double, value: '-1'}
         name: Parameter presets
         validators: null
-        value: *id021
+        value: *id023
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
@@ -948,7 +969,7 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Climber}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id022
+        default: &id024
         - !!robotbuilder.data.properties.ParameterSet
           name: Deploy
           parameters:
@@ -959,11 +980,30 @@ Children:
           - {name: magnitudeDirection, type: double, value: '-1'}
         name: Parameter presets
         validators: null
-        value: *id022
+        value: *id024
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
     Name: EngageClimbDeployer
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value:
+        - !!robotbuilder.data.properties.ParameterDescriptor {name: seconds, type: double}
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: None}
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        default: &id025 []
+        name: Parameter presets
+        validators: null
+        value: *id025
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: false}
+    Base: Command
+    Name: Delay
   Properties: {}
   Base: Commands
   Name: Commands
