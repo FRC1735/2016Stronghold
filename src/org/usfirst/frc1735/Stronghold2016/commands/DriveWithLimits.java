@@ -52,6 +52,8 @@ public class DriveWithLimits extends Command {
     	//Grab the current encoder distance as the starting point
     	m_leftStartDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
     	m_rightStartDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
+    	// Grab the current rangefinder distance as an alternate starting point
+    	m_rangeStartDistance = Robot.range.getRange();
 
     }
 
@@ -80,14 +82,26 @@ public class DriveWithLimits extends Command {
         double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
         double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
         double rightTravel = Math.abs(currentRightDistance - m_rightStartDistance);
+        boolean encoderDistanceReached = (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit));
+        
+        // get current range.
+        double currentRangeDistance = Robot.range.getRange();
+        double rangeTravelDistance = m_rangeStartDistance - currentRangeDistance;
+        // have we reached the rangefinder distance limit?
+        boolean rangeDistanceReached = Math.abs(rangeTravelDistance) >= Math.abs(m_distanceLimit);
+        
         //System.out.println("m_distanceLimit = " + m_distanceLimit);
         //System.out.println("R distance traveled is " + rightTravel + " and L distance traveled is " + leftTravel);
-        boolean finished = (timedOut || (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit)));
+        boolean finished = (timedOut || encoderDistanceReached || rangeDistanceReached);
  
         //System.out.println("isFinished returns status= " + finished);
+        // Print out the reason(s) why we finished:
+        if (finished) {
+        	Robot.dbgPrintln("DriveLimitFinished: timedOut= " + timedOut +
+        					 "encoderDistanceReached= "       + encoderDistanceReached +
+        					 "rangeDistanceReached= "         + rangeDistanceReached);
+        }
         return finished;
-        
-        
     }
 
     // Called once after isFinished returns true
@@ -103,4 +117,5 @@ public class DriveWithLimits extends Command {
     // Member Variables
     double m_leftStartDistance;		// starting absolute distance from encoder
     double m_rightStartDistance;	// starting absolute distance from encoder
+    double m_rangeStartDistance;    // starting distance according to the rangefinder
 }

@@ -15,6 +15,7 @@ import org.usfirst.frc1735.Stronghold2016.Robot;
 import org.usfirst.frc1735.Stronghold2016.RobotMap;
 import org.usfirst.frc1735.Stronghold2016.commands.*;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
