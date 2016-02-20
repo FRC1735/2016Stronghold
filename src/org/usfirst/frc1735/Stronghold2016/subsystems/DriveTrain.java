@@ -70,7 +70,20 @@ public class DriveTrain extends Subsystem {
         if (Math.abs(driveLeft) < Robot.m_joystickFilter) {driveLeft = 0;}
         if (Math.abs(driveRight) < Robot.m_joystickFilter) {driveRight = 0;}
 
-        this.tankDrive(-driveLeft, -driveRight);
+        //We may need to drive the robot BACKWARDS from the joysticks on a frequent basis.
+        // Add a button that allows us to reverse what is the "Front" of the robot to make this easier...
+        // (Button defined in oi.java)
+        if (Robot.oi.reverseDrive.get()) {
+        	// if reverseDrive is set, we want to reverse the "front" of the robot.
+        	// This means that pushing forward should move the robot backwards.
+        	// This basically means that we reverse the polarity of the Y axis of the joystick.
+        	// drive inverted (negative Y means "down" on the joystick)
+        	this.tankDrive(driveLeft, driveRight);
+        }
+        else {
+        	// Drive normally (negative Y means "up" on the joystick)
+        	this.tankDrive(-driveLeft, -driveRight);
+        }
     }
        
     public void tankDrive(double driveLeft,double driveRight) {

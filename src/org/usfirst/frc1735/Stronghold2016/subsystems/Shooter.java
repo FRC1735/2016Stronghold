@@ -48,9 +48,8 @@ public class Shooter extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     public void engageShooter(double magnitudeDirection) {
-    	// TODO:  Why does this work??  Spin should be mirror images, but both motors are sent the same value.
     	leftMotor.set(magnitudeDirection);
-    	rightMotor.set(magnitudeDirection);
+    	rightMotor.set(-magnitudeDirection);
     	}
     public void stop() {
     	leftMotor.set(0);

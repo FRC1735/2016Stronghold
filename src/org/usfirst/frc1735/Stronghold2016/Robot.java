@@ -155,7 +155,7 @@ public class Robot extends IterativeRobot {
         // Wait to enable streaming until after autonomous is over
         // to save processing bandwidth.
         //the camera name (ex "cam0") can be found through the roborio web interface
-        server.startAutomaticCapture("cam0");
+        //server.startAutomaticCapture("cam0");
 
     }
 
