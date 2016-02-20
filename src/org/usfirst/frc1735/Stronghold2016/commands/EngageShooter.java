@@ -12,6 +12,8 @@
 package org.usfirst.frc1735.Stronghold2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc1735.Stronghold2016.Robot;
 import org.usfirst.frc1735.Stronghold2016.RobotMap;
 
@@ -39,7 +41,12 @@ public class EngageShooter extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	m_shooterStrength = Robot.shooterStrength;
+    	// Originally we set the strength based on the preferences widget. (which requires rebooting the RoboRio)
+    	// But, we want the ability to change the value DURiNG a competition match.
+    	// so, instead of reading the prefs variable set in Robot, we take the Prefs Value and move it into the SmartDashboard space.
+    	// Thus, changing the SmartDashboard value will dynamically set the value for the next trigger press.
+    	//m_shooterStrength = Robot.shooterStrength;
+    	m_shooterStrength = SmartDashboard.getNumber("ShooterStrength");
     	Robot.dbgPrintln("Shooter strength is set to " + m_shooterStrength);
     }
 
