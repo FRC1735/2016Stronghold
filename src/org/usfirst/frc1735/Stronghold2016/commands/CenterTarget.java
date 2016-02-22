@@ -13,6 +13,7 @@ package org.usfirst.frc1735.Stronghold2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc1735.Stronghold2016.Robot;
 
@@ -41,6 +42,8 @@ public class CenterTarget extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.pIDVisionDrivetrain.setSetpoint(0);// centered target is a setpoint of 0 (range -1 to +1)
+    	Robot.pIDVisionDrivetrain.enable(); // Enable the PID!
     	
     }
 
@@ -56,15 +59,10 @@ public class CenterTarget extends Command {
     	// 1b) Choose the one that has the largest area.  This is PROBABLY the closest target (and most in-line)
     	//    Don't want to choose the one closest to the center because that might actually be the target
     	//    for a different face that's very oblique to our robot position.
-    	double xPosition = Robot.vision.getTargetXpos();
+    	double xPosition = Robot.vision.getScaledTargetXpos();
+    	SmartDashboard.putNumber("TargetXPos", xPosition);
     	
-    	// 2) Find out how far (magnitude and direction) off-center that target is (the "error")
-    	//    	positions in the NetworkTable are in pixels relative to the camera resolution, with (0,0) being the upper left corner
-    	//    	and (resolutionx,resolutiony) being the bottom right.  We would want to convert to a different scale
-    	//    	where 0,0 is center, and the extents are -1 and +1 (like a joystick input!)
-    	// 	  The equation for this (see "identifying and processing the targets" under Vision on the Screensteps pages)
-    	//		A = (P - resolution/2)/(resolution/2) for each of x and y direction
-    	//
+     	//
     	// 3) If centered within a reasonable "tolerance", stop the motors (Make this the isFinished() check)
     	// 4) Turn the robot in the same direction at a magnitude proportional to the "error".  This is the P term for a PID controller.
     	//    Because we normalized everything to +1/-1, we can use the error exactly as our P term and apply it directly to the motors...
@@ -79,10 +77,12 @@ public class CenterTarget extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.pIDVisionDrivetrain.disable(); // turn off the PID!
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
