@@ -67,7 +67,8 @@ public class FeedBall extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.feeder.isBallReadyPressed(); // if pressed, this command should terminate.
+    	return (!Robot.isSensorOvrd() && Robot.feeder.isBallReadyPressed()); // if pressed, this command should terminate.  Do not terminate if sensor override is set.
+    	
     }
 
     // Called once after isFinished returns true

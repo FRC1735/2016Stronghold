@@ -75,7 +75,7 @@ public class Feeder extends Subsystem {
     	// (i.e. if get returns zero/false, the switch is pressed and "isPressed" should return true
     	// if get returns 1/true, the switch is not pressed and "isPressed" should return false.
     	// This is the NOT of the get function!
-        return !RobotMap.feederBallReady.get();
+        return !ballReady.get();
     }
 
 }

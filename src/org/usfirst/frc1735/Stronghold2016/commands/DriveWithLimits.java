@@ -72,6 +72,8 @@ public class DriveWithLimits extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.dbgPrintln("DriveWithLimits initialize() function called");
+
     	//Grab the current encoder distance as the starting point
     	m_leftStartDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
     	m_rightStartDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
@@ -82,6 +84,8 @@ public class DriveWithLimits extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.dbgPrintln("DriveWithLimits execute() function called");
+
     	// Drive until we hit one of the limits.
     	// Time Limit handled by built-in library and handled in the isFinished() function
      	// Magnitude/direction may need compensation
@@ -92,12 +96,13 @@ public class DriveWithLimits extends Command {
     	// Distance limit handled in isFinished, but same data may be needed for tracking compensation
     	// (to go straight)
     	// TODO:  Add encoder/distance compensation here if needed
-    	
+ 
+/* disable while debugging autonomous strangeness   	
     	// If we are turning, assume we do so differentially (sending same magnitude to both motors, but in opposite directions)
     	// We already enforced the mutex of turnLeft vs turnRight
     	if (m_turnLeft) leftMagnitudeDirection = -leftMagnitudeDirection; 
     	else if (m_turnRight) rightMagnitudeDirection = -rightMagnitudeDirection;
-    	
+*/    	
     	//Finally, send the final motor magnitude and direction to the drivetrain:
     	Robot.driveTrain.tankDrive(leftMagnitudeDirection, rightMagnitudeDirection);
     	
@@ -106,6 +111,11 @@ public class DriveWithLimits extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         boolean timedOut = isTimedOut(); // Check for timeout
+    	if (timedOut) Robot.dbgPrintln("DriveWithLimits isFinished function says we timed out");
+
+        // For debug of autonomous, just return TimedOut since we are going by time dead reckoning right now
+        return timedOut;
+/*        
         double currentLeftDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
         double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
         double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
@@ -131,16 +141,19 @@ public class DriveWithLimits extends Command {
         					 "rangeDistanceReached= "         + rangeDistanceReached);
         }
         return finished;
+*/
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.dbgPrintln("DriveWithLimits end() function called");
     	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.dbgPrintln("DriveWithLimits interrupted() function called");
     	end();
     }
     // Member Variables
