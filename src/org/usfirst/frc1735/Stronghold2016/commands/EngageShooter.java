@@ -42,7 +42,7 @@ public class EngageShooter extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Originally we set the strength based on the preferences widget. (which requires rebooting the RoboRio)
-    	// But, we want the ability to change the value DURiNG a competition match.
+    	// But, we want the ability to change the value DURING a competition match.
     	// so, instead of reading the prefs variable set in Robot, we take the Prefs Value and move it into the SmartDashboard space.
     	// Thus, changing the SmartDashboard value will dynamically set the value for the next trigger press.
     	//m_shooterStrength = Robot.shooterStrength;

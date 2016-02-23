@@ -12,6 +12,7 @@
 package org.usfirst.frc1735.Stronghold2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc1735.Stronghold2016.RobotMap;
 import org.usfirst.frc1735.Stronghold2016.Robot;
@@ -95,7 +96,6 @@ public class DriveWithLimits extends Command {
     		
     	// Distance limit handled in isFinished, but same data may be needed for tracking compensation
     	// (to go straight)
-    	// TODO:  Add encoder/distance compensation here if needed
  
 /* disable while debugging autonomous strangeness   	
     	// If we are turning, assume we do so differentially (sending same magnitude to both motors, but in opposite directions)
@@ -103,6 +103,11 @@ public class DriveWithLimits extends Command {
     	if (m_turnLeft) leftMagnitudeDirection = -leftMagnitudeDirection; 
     	else if (m_turnRight) rightMagnitudeDirection = -rightMagnitudeDirection;
 */    	
+    	// TODO:  Add encoder/distance compensation here if needed
+    	//double correctedLR[] = addMotorCompensation(leftMagnitudeDirection, rightMagnitudeDirection);
+    	//leftMagnitudeDirection  = correctedLR[0];
+    	//rightMagnitudeDirection = correctedLR[1];
+
     	//Finally, send the final motor magnitude and direction to the drivetrain:
     	Robot.driveTrain.tankDrive(leftMagnitudeDirection, rightMagnitudeDirection);
     	
@@ -156,6 +161,39 @@ public class DriveWithLimits extends Command {
     	Robot.dbgPrintln("DriveWithLimits interrupted() function called");
     	end();
     }
+
+    private double[] addMotorCompensation(double driveLeft, double driveRight) {
+    	// The motors spin faster in one direction than the other.
+    	// For this robot configuration:
+    	//     The right side motors spin faster in the backward direction.
+	    //     The left side motors spin faster in the forward direction.
+	    // Create a compensator for this
+	    // Can't add to slower drive if it's already 1.0, so must subtract off faster unit.
+	    // Actually, we want to use a percentage rather than subtracting a factor.
+	    // Algo:
+	    // Only compensate if both values are the same (intending to track straight)
+	    //   if magnitude positive, reduce left  side speed.
+	    //   if magnitude negative, reduce right side speed.
+	    
+	    // We may have some funny negative signs floating around, so be careful about comparisons...
+	    if (driveLeft == driveRight) {
+	        Robot.dbgPrintln("Compensating for input drive magnitude Left = " + driveLeft + " Right = " + driveRight);
+	        
+	        double motorCompensation = SmartDashboard.getNumber("motorCompensation", .1); // a 10% default should be easy to see if we accidentally got it
+	        Robot.dbgPrintln("compensation factor is " + motorCompensation);
+	        if (driveRight > 0) // must be going forwards.  since Left/Right are the same value, just use the right side value for the direction check
+	            driveLeft = driveLeft * motorCompensation; 
+	        else // Must be going backwards
+	            driveRight  = driveRight  * motorCompensation;
+	        //in the zero case, no compensation needed.
+	        Robot.dbgPrintln("After Compensation Left = " + driveLeft + " Right = " + driveRight);
+	    }
+	    // We want to return both left and right vars.  Make an array for this
+	    double [] retval = {driveLeft, driveRight} ;
+	    return retval;
+    }
+    
+    
     // Member Variables
     double m_leftStartDistance;		// starting absolute distance from encoder
     double m_rightStartDistance;	// starting absolute distance from encoder
