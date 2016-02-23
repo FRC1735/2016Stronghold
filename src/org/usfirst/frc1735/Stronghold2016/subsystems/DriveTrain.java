@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -78,12 +79,17 @@ public class DriveTrain extends Subsystem {
         	// This means that pushing forward should move the robot backwards.
         	// This basically means that we reverse the polarity of the Y axis of the joystick.
         	// drive inverted (negative Y means "down" on the joystick)
-        	this.tankDrive(driveLeft, driveRight);
+        	// You also have to reverse Right and Left...
+        	this.tankDrive(driveRight, driveLeft);
         }
         else {
-        	// Drive normally (negative Y means "up" on the joystick)
+        	// Drive normally (negative Y means "up" on the joystick).
         	this.tankDrive(-driveLeft, -driveRight);
+        	
         }
+        
+        // for debug, print the ball banner sensor value here
+        //SmartDashboard.putBoolean("Ball Detect", RobotMap.feederBallReady.get());
     }
        
     public void tankDrive(double driveLeft,double driveRight) {

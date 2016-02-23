@@ -13,5 +13,5 @@ hs_err_pid*
 /bin/
 
 #Backup files
-*.java~
+*~
 

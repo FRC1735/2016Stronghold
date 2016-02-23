@@ -35,7 +35,7 @@ public class Vision extends Subsystem {
 
 	// create a new constructor
 	public Vision() {		
-    // Get a pointer to the networkTable
+    // Get a pointer to the networkTable.  "StrongholdContours" is the name we entered into the publish box in GRIP
     table = NetworkTable.getTable("GRIP/StrongholdContours");
 	}
     

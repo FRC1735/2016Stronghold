@@ -51,12 +51,12 @@ public class Feeder extends Subsystem {
     }
     public void feedBall(double magnitudeDirection) {
     	// when collecting the ball we run both the roller and limbo bar
-    	RobotMap.feederRoller.set(-magnitudeDirection);
-    	RobotMap.feederLimboBar.set(magnitudeDirection);
+    	RobotMap.feederRoller.set(magnitudeDirection);
+    	RobotMap.feederLimboBar.set(-magnitudeDirection);
     }
     public void loadShooter(double magnitudeDirection) {
     	// when loading the shooter we run only the limbo bar
-    	RobotMap.feederLimboBar.set(magnitudeDirection);
+    	RobotMap.feederLimboBar.set(-magnitudeDirection);
     }
     public void stop() {
     	RobotMap.feederRoller.set(0);

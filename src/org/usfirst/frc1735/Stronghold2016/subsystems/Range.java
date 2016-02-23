@@ -56,14 +56,14 @@ public class Range extends Subsystem {
     	// This yields the following:		
     	// d = (4.8639)/(V-1), where d is distance and V is the voltage output of the unit.
     	
-    	return (4.8639/(rangefinder.getVoltage()-1.0));// might use .getAverageVoltage() if this is too noisy
+    	return (4.8639/(rangefinder.getAverageVoltage()-1.0));// might use .getAverageVoltage() if this is too noisy
     }
     
     public void displayRange() {
     	// display the range to console and to SmartDashboard.
     	double range = getRange();
     	SmartDashboard.putNumber("Range (ft)", range);
-    	Robot.dbgPrintln("Current Range: " + range); // only prints to console if master debug enabled
+    	//Robot.dbgPrintln("Current Range: " + range); // only prints to console if master debug enabled
     }
 }
 
