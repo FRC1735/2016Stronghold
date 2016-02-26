@@ -30,11 +30,11 @@ public class AutonomousLowbarShoot extends CommandGroup {
  
     	// Initial state:  facing backwards directly in front of Low Bar defense
     	// 1) Drive backwards long enough to get over low bar and into shooting range
-        addSequential(new DriveWithLimits(1000, 3, -1, false, false)); // distance, time, mag, left, right
+        addSequential(new DriveWithLimits(1000, 2.5, -0.75, false, false)); // distance, time, mag, left, right
         
         // MOTION
         // 2) turn mostly around so that we are (roughly) facing the goal
-        //addSequential(new DriveWithLimits(100, 0.5, 1, true, false)); // d,t,m,l,r
+        addSequential(new DriveWithLimits(100, 0.45, 0.75, true, false)); // d,t,m,l,r
 
         // CENTERING
         // 3) center on the target... hopefully
@@ -42,14 +42,15 @@ public class AutonomousLowbarShoot extends CommandGroup {
         
         //SHOOTING
         // 4) start the shooter
-        //addSequential (new ShooterStart());
+        addSequential (new ShooterStart());
         // 5) Let the shooter get up to speed (someday the PID will do this and the delay won't be needed)
-        //addSequential (new Delay(2));
-        // 6) Advance the ball into the shooter
-        //addSequential (new LoadShooter(1)); // arg is magnitude
+        addSequential (new Delay(2));
+        // 6) Advance the ball into the shooter for 1 second
+        addParallel (new LoadShooter(-1)); // arg is magnitude (negative here is towards the shooter
+        addSequential (new Delay(1));
         // 7) Foomp.  Ball is gone, so stop the shooter and the loader.
-        //addSequential (new ShooterStop());
-        //addSequential (new LoadShooter(0));
+        addSequential (new ShooterStop());
+        addSequential (new FeederStop());
         
         // We're done.
         

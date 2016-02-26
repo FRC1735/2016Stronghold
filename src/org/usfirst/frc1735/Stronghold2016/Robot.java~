@@ -126,13 +126,20 @@ public class Robot extends IterativeRobot {
         
         //Add a preferences widget for storing robot constants
 		prefs = Preferences.getInstance();
+
 		// This is the INITIAL and DEFAULT value for the shooter
-		shooterStrength = prefs.getDouble("shooterStrength", 1); // second arg is a default if var isn't found
-		
+		shooterStrength = prefs.getDouble("shooterStrength", 1); // second arg is a default if var isn't found		
 		// take the prefs value and put it into a dynamic variable.
 		// this allows us to set the DEFAULT value via prefs, but change the value during a match in the SmartDashboard...
 		SmartDashboard.putNumber("ShooterStrength", shooterStrength);
 		
+		// This is the INITIAL and DEFAULT value for the motor compensation term
+		motorCompensation = prefs.getDouble("motorCompensation", 1); // second arg is a default if var isn't found
+		// take the prefs value and put it into a dynamic variable.
+		// this allows us to set the DEFAULT value via prefs, but change the value during a match in the SmartDashboard...
+		SmartDashboard.putNumber("MotorCompensation", motorCompensation);
+		
+		// Vision Processing:
         /* Run GRIP in a new process */
 /*
 		try {
@@ -225,6 +232,8 @@ public class Robot extends IterativeRobot {
 	
     // Variable for holding the shooter strength stored in the prefs widget
 	public static double shooterStrength;
+	// Variable for holding the motor compensation stored in the prefs widget
+	public static double motorCompensation;
 	// default/initial time for testing the autonomousVariableFwd command
 	public static double autoForwardTime = 1.0;
 		

@@ -73,7 +73,7 @@ public class DriveWithLimits extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dbgPrintln("DriveWithLimits initialize() function called");
+    	//Robot.dbgPrintln("DriveWithLimits initialize() function called");
 
     	//Grab the current encoder distance as the starting point
     	m_leftStartDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
@@ -85,7 +85,7 @@ public class DriveWithLimits extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dbgPrintln("DriveWithLimits execute() function called");
+    	//Robot.dbgPrintln("DriveWithLimits execute() function called");
 
     	// Drive until we hit one of the limits.
     	// Time Limit handled by built-in library and handled in the isFinished() function
@@ -97,16 +97,15 @@ public class DriveWithLimits extends Command {
     	// Distance limit handled in isFinished, but same data may be needed for tracking compensation
     	// (to go straight)
  
-/* disable while debugging autonomous strangeness   	
     	// If we are turning, assume we do so differentially (sending same magnitude to both motors, but in opposite directions)
     	// We already enforced the mutex of turnLeft vs turnRight
     	if (m_turnLeft) leftMagnitudeDirection = -leftMagnitudeDirection; 
     	else if (m_turnRight) rightMagnitudeDirection = -rightMagnitudeDirection;
-*/    	
+
     	// TODO:  Add encoder/distance compensation here if needed
-    	//double correctedLR[] = addMotorCompensation(leftMagnitudeDirection, rightMagnitudeDirection);
-    	//leftMagnitudeDirection  = correctedLR[0];
-    	//rightMagnitudeDirection = correctedLR[1];
+    	double correctedLR[] = addMotorCompensation(leftMagnitudeDirection, rightMagnitudeDirection);
+    	leftMagnitudeDirection  = correctedLR[0];
+    	rightMagnitudeDirection = correctedLR[1];
 
     	//Finally, send the final motor magnitude and direction to the drivetrain:
     	Robot.driveTrain.tankDrive(leftMagnitudeDirection, rightMagnitudeDirection);
@@ -116,11 +115,8 @@ public class DriveWithLimits extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         boolean timedOut = isTimedOut(); // Check for timeout
-    	if (timedOut) Robot.dbgPrintln("DriveWithLimits isFinished function says we timed out");
+//    	if (timedOut) Robot.dbgPrintln("DriveWithLimits isFinished function says we timed out");
 
-        // For debug of autonomous, just return TimedOut since we are going by time dead reckoning right now
-        return timedOut;
-/*        
         double currentLeftDistance = RobotMap.driveTrainLeftMotorEncoder.getDistance();
         double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
         double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
@@ -146,45 +142,44 @@ public class DriveWithLimits extends Command {
         					 "rangeDistanceReached= "         + rangeDistanceReached);
         }
         return finished;
-*/
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.dbgPrintln("DriveWithLimits end() function called");
+    	//Robot.dbgPrintln("DriveWithLimits end() function called");
     	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.dbgPrintln("DriveWithLimits interrupted() function called");
+    	//Robot.dbgPrintln("DriveWithLimits interrupted() function called");
     	end();
     }
 
     private double[] addMotorCompensation(double driveLeft, double driveRight) {
     	// The motors spin faster in one direction than the other.
     	// For this robot configuration:
-    	//     The right side motors spin faster in the backward direction.
-	    //     The left side motors spin faster in the forward direction.
+    	//     The left side motors spin faster in the backward direction.
+	    //     The right side motors spin faster in the forward direction.
 	    // Create a compensator for this
 	    // Can't add to slower drive if it's already 1.0, so must subtract off faster unit.
 	    // Actually, we want to use a percentage rather than subtracting a factor.
 	    // Algo:
 	    // Only compensate if both values are the same (intending to track straight)
-	    //   if magnitude positive, reduce left  side speed.
-	    //   if magnitude negative, reduce right side speed.
+	    //   if magnitude positive, reduce right side speed.
+	    //   if magnitude negative, reduce left side speed.
 	    
 	    // We may have some funny negative signs floating around, so be careful about comparisons...
 	    if (driveLeft == driveRight) {
 	        Robot.dbgPrintln("Compensating for input drive magnitude Left = " + driveLeft + " Right = " + driveRight);
 	        
-	        double motorCompensation = SmartDashboard.getNumber("motorCompensation", .1); // a 10% default should be easy to see if we accidentally got it
+	        double motorCompensation = SmartDashboard.getNumber("MotorCompensation", .1); // a 10% default should be easy to see if we accidentally got it
 	        Robot.dbgPrintln("compensation factor is " + motorCompensation);
 	        if (driveRight > 0) // must be going forwards.  since Left/Right are the same value, just use the right side value for the direction check
-	            driveLeft = driveLeft * motorCompensation; 
+	            driveRight *= motorCompensation; 
 	        else // Must be going backwards
-	            driveRight  = driveRight  * motorCompensation;
+	            driveLeft  *= motorCompensation;
 	        //in the zero case, no compensation needed.
 	        Robot.dbgPrintln("After Compensation Left = " + driveLeft + " Right = " + driveRight);
 	    }
