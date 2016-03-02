@@ -218,7 +218,7 @@ Children:
           default: k4X
           name: Encoding Type
           validators: null
-          value: k4X
+          value: k2X
         Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
           name: Reverse Direction, validators: null, value: false}
         Channel B Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
@@ -250,7 +250,7 @@ Children:
           default: k4X
           name: Encoding Type
           validators: null
-          value: k4X
+          value: k2X
         Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
           name: Reverse Direction, validators: null, value: false}
         Channel B Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty

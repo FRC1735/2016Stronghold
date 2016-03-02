@@ -36,7 +36,7 @@ public class Vision extends Subsystem {
 	// create a new constructor
 	public Vision() {		
     // Get a pointer to the networkTable.  "StrongholdContours" is the name we entered into the publish box in GRIP
-    table = NetworkTable.getTable("GRIP/StrongholdContours");
+    table = NetworkTable.getTable("GRIP/StrongholdContours"); // TODO:  Grab the pointer we created in Robot.java?
 	}
     
 
@@ -58,7 +58,7 @@ public class Vision extends Subsystem {
     	double xPos; // return value
     	
     	// 1) Get the current list of targets found.  There might be more than one visible at a time
-       	// first, get the vision system data for the target
+       	// First step: get the vision system data for the target
     	double[] defaultValue = new double[0]; // set up a default value in case the table isn't published yet
 
     	// Get all needed table items at the same time, in case the table updates between reads.

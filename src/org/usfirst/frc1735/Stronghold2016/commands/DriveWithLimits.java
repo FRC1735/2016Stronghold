@@ -121,6 +121,7 @@ public class DriveWithLimits extends Command {
         double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
         double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
         double rightTravel = Math.abs(currentRightDistance - m_rightStartDistance);
+        //TODO:  Should we stop when EITHER reaches the limit?  Or when BOTH reach the limit??
         boolean encoderDistanceReached = (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit));
         
         // get current range.

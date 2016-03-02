@@ -53,6 +53,10 @@ public class EngageShooter extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.shooter.engageShooter(m_shooterStrength);
+    	// Print the shooter RPM values for data-gathering purposes.  need this (Plus rangefinder values)
+    	// to create the equation to map distance to desired RPMs for scoring a goal.
+    	// This line should be removed once we know the values.
+    	Robot.shooter.printRPMs();
     }
 
     // Make this return true when this Command no longer needs to run execute()

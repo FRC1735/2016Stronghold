@@ -42,6 +42,8 @@ public class RobotMap {
     public static Encoder driveTrainRightMotorEncoder;
     public static SpeedController shooterRightMotor;
     public static SpeedController shooterLeftMotor;
+    public static Encoder shooterShootLeftEncoder;
+    public static Encoder shooterShootRightEncoder;
     public static DigitalInput feederBallReady;
     public static SpeedController feederRoller;
     public static SpeedController feederLimboBar;
@@ -83,6 +85,14 @@ public class RobotMap {
         shooterLeftMotor = new VictorSP(2);
         LiveWindow.addActuator("Shooter", "Left Motor", (VictorSP) shooterLeftMotor);
         
+        shooterShootLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
+        LiveWindow.addSensor("Shooter", "ShootLeftEncoder", shooterShootLeftEncoder);
+        shooterShootLeftEncoder.setDistancePerPulse(1.0);
+        shooterShootLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
+        shooterShootRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
+        LiveWindow.addSensor("Shooter", "ShootRightEncoder", shooterShootRightEncoder);
+        shooterShootRightEncoder.setDistancePerPulse(1.0);
+        shooterShootRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         feederBallReady = new DigitalInput(4);
         LiveWindow.addSensor("Feeder", "Ball Ready", feederBallReady);
         
