@@ -85,11 +85,11 @@ public class RobotMap {
         shooterLeftMotor = new VictorSP(2);
         LiveWindow.addActuator("Shooter", "Left Motor", (VictorSP) shooterLeftMotor);
         
-        shooterShootLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
+        shooterShootLeftEncoder = new Encoder(5, 6, false, EncodingType.k2X);
         LiveWindow.addSensor("Shooter", "ShootLeftEncoder", shooterShootLeftEncoder);
         shooterShootLeftEncoder.setDistancePerPulse(1.0);
         shooterShootLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
-        shooterShootRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
+        shooterShootRightEncoder = new Encoder(7, 8, false, EncodingType.k2X);
         LiveWindow.addSensor("Shooter", "ShootRightEncoder", shooterShootRightEncoder);
         shooterShootRightEncoder.setDistancePerPulse(1.0);
         shooterShootRightEncoder.setPIDSourceType(PIDSourceType.kRate);

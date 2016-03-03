@@ -40,10 +40,10 @@ public class RobotMap {
     public static RobotDrive driveTrainRobotDrive21;
     public static Encoder driveTrainLeftMotorEncoder;
     public static Encoder driveTrainRightMotorEncoder;
-    public static SpeedController shooterRightMotor;
-    public static SpeedController shooterLeftMotor;
-    public static Encoder shooterShootLeftEncoder;
-    public static Encoder shooterShootRightEncoder;
+    public static SpeedController shooterLeftPIDLeftMotor;
+    public static Encoder shooterLeftPIDShootLeftEncoder;
+    public static SpeedController shooterRightPIDRightMotor;
+    public static Encoder shooterRightPIDShootRightEncoder;
     public static DigitalInput feederBallReady;
     public static SpeedController feederRoller;
     public static SpeedController feederLimboBar;
@@ -79,20 +79,20 @@ public class RobotMap {
         LiveWindow.addSensor("DriveTrain", "RightMotorEncoder", driveTrainRightMotorEncoder);
         driveTrainRightMotorEncoder.setDistancePerPulse(1.0);
         driveTrainRightMotorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        shooterRightMotor = new VictorSP(3);
-        LiveWindow.addActuator("Shooter", "Right Motor", (VictorSP) shooterRightMotor);
+        shooterLeftPIDLeftMotor = new VictorSP(2);
+        LiveWindow.addActuator("ShooterLeftPID", "Left Motor", (VictorSP) shooterLeftPIDLeftMotor);
         
-        shooterLeftMotor = new VictorSP(2);
-        LiveWindow.addActuator("Shooter", "Left Motor", (VictorSP) shooterLeftMotor);
+        shooterLeftPIDShootLeftEncoder = new Encoder(5, 6, false, EncodingType.k2X);
+        LiveWindow.addSensor("ShooterLeftPID", "ShootLeftEncoder", shooterLeftPIDShootLeftEncoder);
+        shooterLeftPIDShootLeftEncoder.setDistancePerPulse(1.0);
+        shooterLeftPIDShootLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
+        shooterRightPIDRightMotor = new VictorSP(3);
+        LiveWindow.addActuator("ShooterRightPID", "Right Motor", (VictorSP) shooterRightPIDRightMotor);
         
-        shooterShootLeftEncoder = new Encoder(5, 6, false, EncodingType.k2X);
-        LiveWindow.addSensor("Shooter", "ShootLeftEncoder", shooterShootLeftEncoder);
-        shooterShootLeftEncoder.setDistancePerPulse(1.0);
-        shooterShootLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
-        shooterShootRightEncoder = new Encoder(7, 8, false, EncodingType.k2X);
-        LiveWindow.addSensor("Shooter", "ShootRightEncoder", shooterShootRightEncoder);
-        shooterShootRightEncoder.setDistancePerPulse(1.0);
-        shooterShootRightEncoder.setPIDSourceType(PIDSourceType.kRate);
+        shooterRightPIDShootRightEncoder = new Encoder(7, 8, false, EncodingType.k2X);
+        LiveWindow.addSensor("ShooterRightPID", "ShootRightEncoder", shooterRightPIDShootRightEncoder);
+        shooterRightPIDShootRightEncoder.setDistancePerPulse(1.0);
+        shooterRightPIDShootRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         feederBallReady = new DigitalInput(4);
         LiveWindow.addSensor("Feeder", "Ball Ready", feederBallReady);
         

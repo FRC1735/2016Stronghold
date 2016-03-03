@@ -57,6 +57,8 @@ public class Robot extends IterativeRobot {
     public static Vision vision;
     public static DriveTrain driveTrain;
     public static Shooter shooter;
+    public static ShooterLeftPID shooterLeftPID;
+    public static ShooterRightPID shooterRightPID;
     public static Feeder feeder;
     public static Collector collector;
     public static Climber climber;
@@ -93,6 +95,8 @@ public class Robot extends IterativeRobot {
         vision = new Vision();
         driveTrain = new DriveTrain();
         shooter = new Shooter();
+        shooterLeftPID = new ShooterLeftPID();
+        shooterRightPID = new ShooterRightPID();
         feeder = new Feeder();
         collector = new Collector();
         climber = new Climber();
