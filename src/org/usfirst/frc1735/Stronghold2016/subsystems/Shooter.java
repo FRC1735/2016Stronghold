@@ -102,6 +102,54 @@ public class Shooter extends Subsystem {
     	System.out.println("Shooter RPMs:  Left= " + getLeftRPM() + ", Right= " + getRightRPM());
     }
 
+    // This function is used to figure out how fast we should run the shooter given our distance from the goal.
+    public double calculateRPMFromRange(double range) {
+    	// Input is the distance reported by the rangefinder, in feet.
+    	// Assumptions for initial implementation:
+    	// - When fairly close, we need full speed (too close to hit the apex, so need max vertical)
+    	// - When mid-range, we need to back off speed-- limited empirical evidence suggested 62.5-75% at around 12ft.  this was our only datapoint
+    	// - When at long range, we need full speed to get the distance (hitting just at the apex)
+    	// - if graphed with RPM vs Dist, this looks like a valley.  Simplify to two linear regions to make it a V shape.
+    	// - Assume left edge is 5' at 1800RPM
+    	// - Assume the middle of the V (distance wise) is about 12' at 1200RPM
+    	// - Assume right edge is 20' at 1800RPM
+    	
+    	double targetRPM;
+    	//Inverted V can then be implemented as two regions, each a linear equation:
+    	if (range <= 12) {
+    		// y=mx+b; with above values, this solves to:
+    		targetRPM = (-85.7*range) + 2228;
+    	}
+    	else { // range > 12'
+    		
+    		targetRPM = (66.6*range) + 408;
+    	}
+    	
+    	// Clamp RPM to be between 1000 and 1800
+    	targetRPM = Math.max(Math.min(targetRPM, 1800), 1000);
+    	return targetRPM;
+    }
     
+    // Function to spin up shooter to *just* the right speed to hit the goal
+    public void engageAutoShooter() {
+    	// First, find out our current distance to the target
+    	double range = Robot.range.getRange();
+    	
+    	// Calculate the RPMs needed to hit a target at that range
+    	double targetRPM = calculateRPMFromRange(range);
+    	
+    	Robot.shooterLeftPID.setSetpoint(targetRPM);
+    	Robot.shooterRightPID.setSetpoint(targetRPM);
+    	Robot.shooterLeftPID.enable();
+    	Robot.shooterRightPID.enable();
+    }
+    
+    //Given a target RPM, how fast should we run the motor (from 0 to 1)
+    public double calculateMotorSpeedFromRPM(double requestedRPM) {
+    	// We don't really know the motor curve, so let's assume a dumb linear for now:
+    	// if RPM can go from 0 to 1800, and motor can go from 0 to 1, then the linear relationship is just RPM/1800
+    	return requestedRPM/1800;
+    	
+    }
  }
 
