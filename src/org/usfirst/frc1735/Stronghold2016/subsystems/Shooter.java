@@ -11,6 +11,7 @@
 
 package org.usfirst.frc1735.Stronghold2016.subsystems;
 
+import org.usfirst.frc1735.Stronghold2016.Robot;
 import org.usfirst.frc1735.Stronghold2016.RobotMap;
 import org.usfirst.frc1735.Stronghold2016.commands.*;
 
@@ -40,6 +41,8 @@ public class Shooter extends Subsystem {
     private final Encoder shootLeftEncoder = RobotMap.shooterLeftPIDShootLeftEncoder;
     private final SpeedController rightMotor = RobotMap.shooterRightPIDRightMotor;
     private final Encoder shootRightEncoder = RobotMap.shooterRightPIDShootRightEncoder;
+    //private final ShooterLeftPID leftPID = Robot.shooterLeftPID;
+
 
 // Add a constructor to set the sample rate
     public Shooter() {
@@ -66,10 +69,26 @@ public class Shooter extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     public void engageShooter(double magnitudeDirection) {
-    	leftMotor.set(magnitudeDirection);
-    	rightMotor.set(-magnitudeDirection);
+    	// Original code, which assumes magnitudeDirection is motor value from -1 to +1
+    	//leftMotor.set(magnitudeDirection);
+    	//rightMotor.set(-magnitudeDirection);
+    	
+    	
+    	double leftError = ((800.0+getLeftRPM())/1800)*magnitudeDirection;
+    	double rightError = ((800.0-getRightRPM())/1800)*magnitudeDirection;
+    	System.out.println(leftError + " " + rightError);
+    	leftMotor.set(-1*Math.max(Math.min(-.5-leftError,1.0),-1.0));
+    	rightMotor.set(Math.max(Math.min(-.5-rightError, 1.0), -1.0));
+    	
+    	
+    	// Experimental code to hijack that and interpret it as RPM for the PID subsystem
+    	///Robot.shooterLeftPID.setSetpoint(800.0);
+    	//Robot.shooterRightPID.setSetpoint(0.1);
+    	//Robot.shooterLeftPID.enable();
+    	//Robot.shooterRightPID.enable();
     	}
     public void stop() {
+    	//Original Code with direct drive of motors
     	leftMotor.set(0);
     	rightMotor.set(0);
     }
