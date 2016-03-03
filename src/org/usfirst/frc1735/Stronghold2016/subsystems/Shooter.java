@@ -74,8 +74,8 @@ public class Shooter extends Subsystem {
     	//rightMotor.set(-magnitudeDirection);
     	
     	
-    	double leftError = ((800.0+getLeftRPM())/1800)*magnitudeDirection;
-    	double rightError = ((800.0-getRightRPM())/1800)*magnitudeDirection;
+    	double leftError = ((magnitudeDirection+getLeftRPM())/1800)*4;
+    	double rightError = ((magnitudeDirection-getRightRPM())/1800)*4;
     	System.out.println(leftError + " " + rightError);
     	leftMotor.set(-1*Math.max(Math.min(-.5-leftError,1.0),-1.0));
     	rightMotor.set(Math.max(Math.min(-.5-rightError, 1.0), -1.0));
