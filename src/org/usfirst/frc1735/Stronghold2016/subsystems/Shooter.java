@@ -69,26 +69,16 @@ public class Shooter extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     public void engageShooter(double magnitudeDirection) {
-    	// Original code, which assumes magnitudeDirection is motor value from -1 to +1
-    	//leftMotor.set(magnitudeDirection);
-    	//rightMotor.set(-magnitudeDirection);
+    	//1800 is about the max speed, so start the setPoint approx the right speed
+    	double setPoint = magnitudeDirection/1800;
     	
-    	
-    	double leftError = ((magnitudeDirection+getLeftRPM())/1800)*4;
-    	double rightError = ((magnitudeDirection-getRightRPM())/1800)*4;
+    	double leftError = ((magnitudeDirection+getLeftRPM())/magnitudeDirection)*4;
+    	double rightError = ((magnitudeDirection-getRightRPM())/magnitudeDirection)*4;
     	System.out.println(leftError + " " + rightError);
-    	leftMotor.set(-1*Math.max(Math.min(-.5-leftError,1.0),-1.0));
-    	rightMotor.set(Math.max(Math.min(-.5-rightError, 1.0), -1.0));
-    	
-    	
-    	// Experimental code to hijack that and interpret it as RPM for the PID subsystem
-    	///Robot.shooterLeftPID.setSetpoint(800.0);
-    	//Robot.shooterRightPID.setSetpoint(0.1);
-    	//Robot.shooterLeftPID.enable();
-    	//Robot.shooterRightPID.enable();
-    	}
+    	leftMotor.set(-1*Math.max(Math.min(-1*(setPoint+leftError),1.0),-1.0));
+    	rightMotor.set(Math.max(Math.min(-1*(setPoint+rightError), 1.0), -1.0));
+    }
     public void stop() {
-    	//Original Code with direct drive of motors
     	leftMotor.set(0);
     	rightMotor.set(0);
     }
