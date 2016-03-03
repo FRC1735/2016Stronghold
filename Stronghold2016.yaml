@@ -242,7 +242,7 @@ Children:
       Continuous: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Continuous, validators: null, value: false}
       F: !!robotbuilder.data.properties.DoubleProperty {default: 0, name: F, validators: null,
-        value: 0.0}
+        value: 1.0}
       Tolerance: !!robotbuilder.data.properties.DoubleProperty {default: 0.2, name: Tolerance,
         validators: null, value: 0.2}
       Constants: !!robotbuilder.data.properties.ConstantsProperty
@@ -342,7 +342,7 @@ Children:
       Continuous: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Continuous, validators: null, value: false}
       F: !!robotbuilder.data.properties.DoubleProperty {default: 0, name: F, validators: null,
-        value: 0.0}
+        value: 1.0}
       Tolerance: !!robotbuilder.data.properties.DoubleProperty {default: 0.2, name: Tolerance,
         validators: null, value: 0.2}
       Constants: !!robotbuilder.data.properties.ConstantsProperty
