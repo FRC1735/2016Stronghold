@@ -116,24 +116,43 @@ public class Shooter extends Subsystem {
     	// - When fairly close, we need full speed (too close to hit the apex, so need max vertical)
     	// - When mid-range, we need to back off speed-- limited empirical evidence suggested 62.5-75% at around 12ft.  this was our only datapoint
     	// - When at long range, we need full speed to get the distance (hitting just at the apex)
-    	// - if graphed with RPM vs Dist, this looks like a valley.  Simplify to two linear regions to make it a V shape.
-    	// - Assume left edge is 5' at 1800RPM
-    	// - Assume the middle of the V (distance wise) is about 12' at 1200RPM
-    	// - Assume right edge is 20' at 1800RPM
+    	// - if graphed with RPM vs Dist, this looks like a valley with some flatness in the middle.
+    	// - Simplify to three linear regions to make it a \_/ shape of sorts.
+    	// - Empirical evidence:
+    	// DIST	RPM
+    	// 8		1700
+    	// 9.33		1700
+    	// 10		1700
+    	// 10.4166	1100
+    	// 11		1100
+    	// 14		1100
+    	// 15		1100
+    	// 17		1100
+    	// 19		1400
+    	// 22		1800
+    	
+    	// This makes three distinct regions:
+    	// d <= 10' == 1700
+    	// 10 < d <= 17 == 1100
+    	// >17, linear y=mx+b, with m=700/5=140. => 1800=140*22+b => b=-1280
     	
     	double targetRPM;
-    	//Inverted V can then be implemented as two regions, each a linear equation:
-    	if (range <= 12) {
-    		// y=mx+b; with above values, this solves to:
-    		targetRPM = (-85.7*range) + 2228;
+    	//answer can then be implemented as three regions, each a linear equation:
+    	if (range <= 10) {
+    		// flat
+    		targetRPM = 1700;
     	}
-    	else { // range > 12'
-    		
-    		targetRPM = (66.6*range) + 408;
+    	else if (range <=17) {
+    		//disjoint but flat
+    		targetRPM = 1100;
     	}
+    	else { // range >17
+    		targetRPM = (range*140) - 1280;
+    	}
+
     	
-    	// Clamp RPM to be between 1000 and 1800
-    	targetRPM = Math.max(Math.min(targetRPM, 1800), 1000);
+    	// Clamp RPM to be between 1100 and 1800
+    	targetRPM = Math.max(Math.min(targetRPM, 1800), 1100);
     	return targetRPM;
     }
     
