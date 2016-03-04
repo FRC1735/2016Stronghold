@@ -78,6 +78,13 @@ public class Shooter extends Subsystem {
     	leftMotor.set(-1*Math.max(Math.min(-1*(setPoint+leftError),1.0),-1.0));
     	rightMotor.set(Math.max(Math.min(-1*(setPoint+rightError), 1.0), -1.0));
     }
+    
+    public void engageOriginalShooter(double magnitudeDirection) {
+    	// Assumes input is in motor scaling units (-1 to +1)
+    	leftMotor.set(magnitudeDirection);
+    	rightMotor.set(-magnitudeDirection);
+    }
+    
     public void stop() {
     	leftMotor.set(0);
     	rightMotor.set(0);
@@ -130,6 +137,23 @@ public class Shooter extends Subsystem {
     	return targetRPM;
     }
     
+    //Spin up the shooter using the intermediate PID developed while debugging
+    public void engageHomemadePIDShooter(double magnitudeDirection) {
+       	// First, find out our current distance to the target
+    	double range = Robot.range.getRange();
+    	
+    	// Calculate the RPMs needed to hit a target at that range
+    	double targetRPM = calculateRPMFromRange(range);
+    	
+    	//Call the intermediate routine that uses a simplified PID algo to set the motor speed
+    	engageShooter(targetRPM);
+    	
+    	// NOTE that this version of the function does not run a separate PID loop thread, so it's
+    	// not clear whether the motors will continue to compensate once we leave this function and move on to the
+    	// command that feeds the ball into the shooter wheels.  At that point, it might just be running at whatever magnitude
+    	// we last programmed it...
+    	
+    }
     // Function to spin up shooter to *just* the right speed to hit the goal
     public void engageAutoShooter() {
     	// First, find out our current distance to the target

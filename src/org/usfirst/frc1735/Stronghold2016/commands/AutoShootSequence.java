@@ -48,6 +48,8 @@ public class AutoShootSequence extends CommandGroup {
     	// Upon invoking (e.g. from driver trigger right)...
     	// 1) Spin up the shooter to the calculated speed for this distance from the goal.
     	//    (Note:  Command will not complete until the PID says the wheels are at the target speed)
+    	// Alternatively, can call EngageHomemadePIDShooter, which uses the intermediate PID algorithm.
+    	//  (Not sure that the intermediate algo will keep compensating for motor load after we move onto the LoadShooter stage, though...)
     	addSequential(new EngageAutoShooter());
     	
         // 2) Advance the ball into the shooter for 1 second
