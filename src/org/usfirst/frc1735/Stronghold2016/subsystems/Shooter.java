@@ -68,6 +68,10 @@ public class Shooter extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    
+    //IMPORTANT NOTE:  THIS FUNCTION TAKES RPM, not MOTOR values!
+    // Risk reduction decision to not change the code since it was working.
+    // Easy task to rename magnitudeDirection to RPM if needed later.
     public void engageShooter(double magnitudeDirection) {
     	//1800 is about the max speed, so start the setPoint approx the right speed
     	double setPoint = magnitudeDirection/1800;
@@ -156,8 +160,10 @@ public class Shooter extends Subsystem {
     	return targetRPM;
     }
     
-    //Spin up the shooter using the intermediate PID developed while debugging
-    public void engageHomemadePIDShooter(double magnitudeDirection) {
+    //Spin up the shooter using the intermediate PID developed while debugging.
+    // because this isn't a PID, we need to do our own tolerance/onTarget checking in the command that calls this.
+    // That means the caller needs to know what RPM we were targeting, so return that value.
+    public double engageSmallPIDShooter() {
        	// First, find out our current distance to the target
     	double range = Robot.range.getRange();
     	
@@ -171,6 +177,8 @@ public class Shooter extends Subsystem {
     	// not clear whether the motors will continue to compensate once we leave this function and move on to the
     	// command that feeds the ball into the shooter wheels.  At that point, it might just be running at whatever magnitude
     	// we last programmed it...
+    	
+    	return targetRPM;
     	
     }
     // Function to spin up shooter to *just* the right speed to hit the goal

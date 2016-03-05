@@ -71,6 +71,14 @@ public class DriveTrain extends Subsystem {
         if (Math.abs(driveLeft) < Robot.m_joystickFilter) {driveLeft = 0;}
         if (Math.abs(driveRight) < Robot.m_joystickFilter) {driveRight = 0;}
 
+        // Apply selective proportional reduction.
+        // Unless the Driver right Button2 is pressed, reduce speed by 25%
+        if (!Robot.oi.turboMode.get()) {
+        	driveLeft = driveLeft * 0.75; // FWIW, the 2015 robot ran at 66%
+        	driveRight = driveRight * 0.75;
+        }
+       
+        
         //We may need to drive the robot BACKWARDS from the joysticks on a frequent basis.
         // Add a button that allows us to reverse what is the "Front" of the robot to make this easier...
         // (Button defined in oi.java)
@@ -93,33 +101,10 @@ public class DriveTrain extends Subsystem {
     }
        
     public void tankDrive(double driveLeft,double driveRight) {
-        // The motors spin faster in one direction than the other.
-        // For this robot configuration:
-        //     The right side motors spin faster in the forward direction.
-        //     The left side motors spin faster in the backward direction.
-        // Create a compensator for this
-        // Can't add to slower drive if it's already 1.0, so must subtract off faster unit.
-        // Actually, we want to use a percentage rather than subtracting a factor.
-        // Algo:
-        // Only compensate if both values are the same (intending to track straight, or are in autonomous)
-        //   if magnitude positive, reduce right side speed.
-        //   if magnitude negative, reduce left  side speed.
-        
-        // We have some funny negative signs floating around, so be sure to use absolute values for this check
-//        if (Math.abs(driveLeft) == Math.abs(driveRight)) {
-//            System.out.println("Compensating for input drive magnitude Left = " + driveLeft + " Right = " + driveRight);
-//            
-//            double motorCompensation = SmartDashboard.getNumber("motorCompensation", .1); // a 10% default should be easy to see if we accidentally got it
-//        
-//            if (driveRight > 0)
-//                driveRight = driveRight * motorCompensation; 
-//            else
-//                driveLeft  = driveLeft  * motorCompensation;
-//            //in the zero case, no compensation needed.
-//        }
-//        // Drive with the compensated value.
-//        System.out.println("After Compensation Left = " + driveLeft + " Right = " + driveRight);
-    	
+    	// Note that motorCompensation is done in DriveWithLimits, rather than here...
+    	// it *could* be moved back here if we needed some kind of teleoperated assist for
+    	// driving straight.  (e.g. another modifier button that reads only one joystick and
+    	// uses motorCompensation to drive perfectly straight at the desired speed)
         robotDrive21.tankDrive(driveLeft, driveRight); // Optional third arg bool SquaredInputs, when true, decreases sensitivity at low speeds.
     }
 
