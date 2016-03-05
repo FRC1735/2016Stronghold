@@ -38,8 +38,10 @@ public class AutonomousLowbarShoot extends CommandGroup {
 
         // CENTERING
         // 3) center on the target... hopefully
-        //addSequential (new CenterTarget());
-        
+        addSequential(new CameraLight(true));
+        addSequential (new CenterTarget());
+        addSequential(new CameraLight(false));
+
         //SHOOTING
         // 4) start the shooter
         addSequential (new ShooterStart());
