@@ -59,8 +59,6 @@ public class OI {
     public Joystick joyRight;
     public JoystickButton feedForward;
     public JoystickButton feedReverse;
-    public JoystickButton collectInward;
-    public JoystickButton collectOutward;
     public JoystickButton deployClimber;
     public JoystickButton retractClimber;
     public Joystick operator;
@@ -84,11 +82,7 @@ public class OI {
         retractClimber = new JoystickButton(operator, 7);
         retractClimber.whileHeld(new WinchRobot());
         deployClimber = new JoystickButton(operator, 6);
-        deployClimber.whenPressed(new EngageClimbDeployer(1));
-        collectOutward = new JoystickButton(operator, 2);
-        collectOutward.whileHeld(new EngageCollector(-1));
-        collectInward = new JoystickButton(operator, 3);
-        collectInward.whileHeld(new EngageCollector(1));
+        deployClimber.whileHeld(new EngageClimbDeployer(1));
         feedReverse = new JoystickButton(operator, 4);
         feedReverse.whileHeld(new FeedBall(-1));
         feedForward = new JoystickButton(operator, 5);
