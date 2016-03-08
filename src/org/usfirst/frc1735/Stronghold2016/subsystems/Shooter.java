@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -169,6 +170,12 @@ public class Shooter extends Subsystem {
     	
     	// Calculate the RPMs needed to hit a target at that range
     	double targetRPM = calculateRPMFromRange(range);
+
+    	// If the SensorOverride button is pressed, bypass the routine and calculations and just spin the shooter up...
+    	if (Robot.isSensorOvrd()){
+    		engageOriginalShooter(SmartDashboard.getNumber("ShooterStrength"));
+    	}
+    	else {
     	
     	//Call the intermediate routine that uses a simplified PID algo to set the motor speed
     	engageShooter(targetRPM);
@@ -177,12 +184,17 @@ public class Shooter extends Subsystem {
     	// not clear whether the motors will continue to compensate once we leave this function and move on to the
     	// command that feeds the ball into the shooter wheels.  At that point, it might just be running at whatever magnitude
     	// we last programmed it...
-    	
+    	}
     	return targetRPM;
     	
     }
     // Function to spin up shooter to *just* the right speed to hit the goal
     public void engageAutoShooter() {
+    	// However, if the SensorOverride button is pressed, bypass all that and just spin the shooter up...
+    	if (Robot.isSensorOvrd()){
+    		engageOriginalShooter(SmartDashboard.getNumber("ShooterStrength"));
+    	}
+    	else {
     	// First, find out our current distance to the target
     	double range = Robot.range.getRange();
     	
@@ -193,6 +205,7 @@ public class Shooter extends Subsystem {
     	Robot.shooterRightPID.setSetpoint(targetRPM);
     	Robot.shooterLeftPID.enable();
     	Robot.shooterRightPID.enable();
+    	}
     }
     
     //Given a target RPM, how fast should we run the motor (from 0 to 1)
