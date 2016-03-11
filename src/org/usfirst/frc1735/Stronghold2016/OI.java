@@ -100,6 +100,8 @@ public class OI {
 
 
         // SmartDashboard Buttons
+        SmartDashboard.putData("AutonomousDefenseReach", new AutonomousDefenseReach());
+        SmartDashboard.putData("AutonomousDefenseCross", new AutonomousDefenseCross());
         SmartDashboard.putData("AutonomousLowbarShoot", new AutonomousLowbarShoot());
         SmartDashboard.putData("BasicShoot", new BasicShoot());
         SmartDashboard.putData("AutoShootSequence", new AutoShootSequence());

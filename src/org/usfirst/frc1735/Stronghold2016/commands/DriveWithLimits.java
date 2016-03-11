@@ -130,6 +130,15 @@ public class DriveWithLimits extends Command {
         // have we reached the rangefinder distance limit?
         boolean rangeDistanceReached = Math.abs(rangeTravelDistance) >= Math.abs(m_distanceLimit);
         
+        // Alternative implementation for experimentation only:
+        // Use the distance as an ABSOLUTE distance, and stop when the rangefinder value is less than that value.
+        // This would allow the function to be implemented as "drive until you are this far from an obstacle"
+        boolean rangeFromObstacleReached = (currentRangeDistance <= m_distanceLimit);
+        if (m_useDistanceFromObstacle) {
+        	// Override the meaning of the range variable if requested
+        	rangeDistanceReached = rangeFromObstacleReached;
+        }
+        
         //System.out.println("m_distanceLimit = " + m_distanceLimit);
         //System.out.println("R distance traveled is " + rightTravel + " and L distance traveled is " + leftTravel);
         //boolean finished = (timedOut || encoderDistanceReached || rangeDistanceReached);
@@ -194,4 +203,6 @@ public class DriveWithLimits extends Command {
     double m_leftStartDistance;		// starting absolute distance from encoder
     double m_rightStartDistance;	// starting absolute distance from encoder
     double m_rangeStartDistance;    // starting distance according to the rangefinder
+    boolean m_useDistanceFromObstacle = false; //Experimental override to force distance to be absolute from obstacle,
+    									// rather than relative to starting point.
 }
