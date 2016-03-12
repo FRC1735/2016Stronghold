@@ -36,6 +36,9 @@ public class AutonomousLowbarShoot extends CommandGroup {
         // 2) turn mostly around so that we are (roughly) facing the goal
         addSequential(new DriveWithLimits(100, 0.45, 0.75, true, false)); // d,t,m,l,r
 
+        //The full automated sequence is done by this comandGroup:
+        addSequential(new AutoCenterAndShootSequence());
+/*        	
         // CENTERING
         // 3) center on the target... hopefully
         addSequential(new CameraLight(true));
@@ -53,6 +56,8 @@ public class AutonomousLowbarShoot extends CommandGroup {
         // 7) Foomp.  Ball is gone, so stop the shooter and the loader.
         addSequential (new ShooterStop());
         addSequential (new FeederStop());
+*/
+
         
         // We're done.
         
