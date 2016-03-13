@@ -124,8 +124,10 @@ public class Robot extends IterativeRobot {
         autoChooser = new SendableChooser();
         // Provide the available choices
         autoChooser.addDefault("Do Nothing",  new AutonomousDoNothing());
-        autoChooser.addObject("Forward One Second", new AutonomousFwd());
-        autoChooser.addObject("Backward One Second", new AutonomousBkw());
+//        autoChooser.addObject("Forward One Second", new AutonomousFwd());
+//        autoChooser.addObject("Backward One Second", new AutonomousBkw());
+        autoChooser.addObject("Reach Defense",  new AutonomousDefenseReach());
+        autoChooser.addObject("Cross Defense",  new AutonomousDefenseCross());
         autoChooser.addObject("Low Bar and Shoot", new AutonomousLowbarShoot());
         // Add the chooser widget to the dashboard
         SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
@@ -252,6 +254,6 @@ public class Robot extends IterativeRobot {
 	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
 	// Variable for holding the desired target centering setpoint.
 	// hard code here, but perhaps store it in the prefs widget at some future time?
-	public static double targetSetpoint = 0.0;
+	public static double targetSetpoint = 0.1;
 	
 }

@@ -53,7 +53,7 @@ public class EngageAutoShooter extends Command {
         boolean leftIsFinished = Robot.shooterLeftPID.onTarget();
         boolean rightIsFinished = Robot.shooterRightPID.onTarget();
         
-        return (leftIsFinished && rightIsFinished);
+        return false; //(leftIsFinished && rightIsFinished);
     }
 
     // Called once after isFinished returns true

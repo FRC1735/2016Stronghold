@@ -51,11 +51,11 @@ public class AutoShootSequence extends CommandGroup {
     	addSequential(new EngageAutoShooter());
     	
         // 2) Advance the ball into the shooter for 1 second
-        addParallel (new LoadShooter(-1)); // arg is magnitude (negative here is towards the shooter)
-        addSequential (new Delay(1));
+        //addParallel (new LoadShooter(-1)); // arg is magnitude (negative here is towards the shooter)
+        //addSequential (new Delay(1));
         // 3) Foomp.  Ball is gone, so stop the shooter and the loader.
-        addParallel (new ShooterStop());
-        addSequential (new FeederStop());
+        //addParallel (new ShooterStop());
+        //addSequential (new FeederStop());
         
         // We're done.
 

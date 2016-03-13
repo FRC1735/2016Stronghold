@@ -200,6 +200,7 @@ public class Shooter extends Subsystem {
     	
     	// Calculate the RPMs needed to hit a target at that range
     	double targetRPM = calculateRPMFromRange(range);
+    	System.out.println ("Calculated RPM for autoshooter = " + targetRPM);
     	
     	Robot.shooterLeftPID.setSetpoint(targetRPM);
     	Robot.shooterRightPID.setSetpoint(targetRPM);

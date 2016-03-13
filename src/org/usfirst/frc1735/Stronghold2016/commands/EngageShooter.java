@@ -52,6 +52,9 @@ public class EngageShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// Support a reverse motor mode in case ball is stuck on top of robot
+    	if (Robot.oi.reverseShooterMode.get())
+    		m_shooterStrength = -m_shooterStrength;
     	Robot.shooter.engageOriginalShooter(m_shooterStrength);
     	// Print the shooter RPM values for data-gathering purposes.  need this (Plus rangefinder values)
     	// to create the equation to map distance to desired RPMs for scoring a goal.
