@@ -17,6 +17,7 @@ import org.usfirst.frc1735.Stronghold2016.commands.*;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -128,15 +129,19 @@ public class Vision extends Subsystem {
     	return scaled;
     }
     
-    public void CameraLightOn(boolean onState) {
+    public void cameraLightOn(boolean onState) {
     	// If onState is true, turn the camera light relay on.
     	// Otherwise, turn it off.
     	// If the light doesn't light up, try reversing the Direction (and therefore the voltage) to be .kReverse
     	cameraLightRelay.setDirection(Relay.Direction.kForward);
-    	if (onState)
+    	if (onState) {
     		cameraLightRelay.set(Relay.Value.kOn);
-    	else
+    		SmartDashboard.putBoolean("Camera Light On: ", onState);
+    	}
+    	else {
     		cameraLightRelay.set(Relay.Value.kOff);
+    		SmartDashboard.putBoolean("Camera Ligth On: ", onState);
+    	}
     }
     
 }

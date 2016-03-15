@@ -100,7 +100,7 @@ public class OI {
         loadForward = new JoystickButton(joyRight, 5);
         loadForward.whileHeld(new LoadShooter(1));
         shooterEngage = new JoystickButton(joyRight, 1);
-        shooterEngage.whileHeld(new EngageShooter());
+        shooterEngage.whileHeld(new AutoShootSequence());
         joyLeft = new Joystick(0);
         
 
