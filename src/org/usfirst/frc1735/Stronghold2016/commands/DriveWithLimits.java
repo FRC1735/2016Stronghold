@@ -121,6 +121,7 @@ public class DriveWithLimits extends Command {
         double currentRightDistance = RobotMap.driveTrainRightMotorEncoder.getDistance();
         double leftTravel = Math.abs(currentLeftDistance - m_leftStartDistance);
         double rightTravel = Math.abs(currentRightDistance - m_rightStartDistance);
+        //TODO:  Should we stop when EITHER reaches the limit?  Or when BOTH reach the limit??
         boolean encoderDistanceReached = (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit));
         
         // get current range.
@@ -128,6 +129,15 @@ public class DriveWithLimits extends Command {
         double rangeTravelDistance = m_rangeStartDistance - currentRangeDistance;
         // have we reached the rangefinder distance limit?
         boolean rangeDistanceReached = Math.abs(rangeTravelDistance) >= Math.abs(m_distanceLimit);
+        
+        // Alternative implementation for experimentation only:
+        // Use the distance as an ABSOLUTE distance, and stop when the rangefinder value is less than that value.
+        // This would allow the function to be implemented as "drive until you are this far from an obstacle"
+        boolean rangeFromObstacleReached = (currentRangeDistance <= m_distanceLimit);
+        if (m_useDistanceFromObstacle) {
+        	// Override the meaning of the range variable if requested
+        	rangeDistanceReached = rangeFromObstacleReached;
+        }
         
         //System.out.println("m_distanceLimit = " + m_distanceLimit);
         //System.out.println("R distance traveled is " + rightTravel + " and L distance traveled is " + leftTravel);
@@ -193,4 +203,6 @@ public class DriveWithLimits extends Command {
     double m_leftStartDistance;		// starting absolute distance from encoder
     double m_rightStartDistance;	// starting absolute distance from encoder
     double m_rangeStartDistance;    // starting distance according to the rangefinder
+    boolean m_useDistanceFromObstacle = false; //Experimental override to force distance to be absolute from obstacle,
+    									// rather than relative to starting point.
 }

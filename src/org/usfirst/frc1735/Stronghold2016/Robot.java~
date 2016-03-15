@@ -57,8 +57,11 @@ public class Robot extends IterativeRobot {
     public static Vision vision;
     public static DriveTrain driveTrain;
     public static Shooter shooter;
+    public static ShooterLeftPID shooterLeftPID;
+    public static ShooterRightPID shooterRightPID;
     public static Feeder feeder;
     public static Collector collector;
+    public static CollectDeploy collectDeploy;
     public static Climber climber;
     public static PDP pDP;
     public static Range range;
@@ -93,8 +96,11 @@ public class Robot extends IterativeRobot {
         vision = new Vision();
         driveTrain = new DriveTrain();
         shooter = new Shooter();
+        shooterLeftPID = new ShooterLeftPID();
+        shooterRightPID = new ShooterRightPID();
         feeder = new Feeder();
         collector = new Collector();
+        collectDeploy = new CollectDeploy();
         climber = new Climber();
         pDP = new PDP();
         range = new Range();
@@ -118,8 +124,10 @@ public class Robot extends IterativeRobot {
         autoChooser = new SendableChooser();
         // Provide the available choices
         autoChooser.addDefault("Do Nothing",  new AutonomousDoNothing());
-        autoChooser.addObject("Forward One Second", new AutonomousFwd());
-        autoChooser.addObject("Backward One Second", new AutonomousBkw());
+//        autoChooser.addObject("Forward One Second", new AutonomousFwd());
+//        autoChooser.addObject("Backward One Second", new AutonomousBkw());
+        autoChooser.addObject("Reach Defense",  new AutonomousDefenseReach());
+        autoChooser.addObject("Cross Defense",  new AutonomousDefenseCross());
         autoChooser.addObject("Low Bar and Shoot", new AutonomousLowbarShoot());
         // Add the chooser widget to the dashboard
         SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
@@ -138,6 +146,13 @@ public class Robot extends IterativeRobot {
 		// take the prefs value and put it into a dynamic variable.
 		// this allows us to set the DEFAULT value via prefs, but change the value during a match in the SmartDashboard...
 		SmartDashboard.putNumber("MotorCompensation", motorCompensation);
+		
+		// Set the initial value (compiled in; not in prefs) for shooter RPM (Used by BasicShoot only)
+		SmartDashboard.putNumber("ShooterRPM", shooterRPM);
+		
+		// Set the initial value (currently compiled in, but could become a pref) for the target setpoint.
+		// This allows us to change what is "centered" if the camera offset requires a nonzero setpoint to center the target.
+		SmartDashboard.putNumber("TargetSetpoint", targetSetpoint);
 		
 		// Vision Processing:
         /* Run GRIP in a new process */
@@ -236,5 +251,9 @@ public class Robot extends IterativeRobot {
 	public static double motorCompensation;
 	// default/initial time for testing the autonomousVariableFwd command
 	public static double autoForwardTime = 1.0;
-		
+	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
+	// Variable for holding the desired target centering setpoint.
+	// hard code here, but perhaps store it in the prefs widget at some future time?
+	public static double targetSetpoint = 0.1;
+	
 }

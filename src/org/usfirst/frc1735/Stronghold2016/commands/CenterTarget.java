@@ -42,7 +42,16 @@ public class CenterTarget extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.pIDVisionDrivetrain.setSetpoint(0);// centered target is a setpoint of 0 (range -1 to +1)
+    	// While ideally the setpoint would result in a target at 0,0
+    	// (we use a scaled Xpos value ranging from -1 at left edge and +1 at right edge)
+    	// The reality is that the camera is off-center and we might need a non-zero setpoint
+    	// in order to REALLY center on the target.  So, pull the value from the SmartDashboard
+    	// so that we can tune the final value.
+    	//
+    	// First, turn on the lights
+    	Robot.vision.CameraLightOn(true);
+    	double targetSetpoint = SmartDashboard.getNumber("TargetSetpoint");
+    	Robot.pIDVisionDrivetrain.setSetpoint(targetSetpoint);// centered target is ideally a setpoint of 0 (range -1 to +1)
     	Robot.pIDVisionDrivetrain.enable(); // Enable the PID!
     	
     }
@@ -72,7 +81,13 @@ public class CenterTarget extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.pIDVisionDrivetrain.onTarget();
+    	if (Robot.pIDVisionDrivetrain.onTarget())
+    	{
+    		Robot.vision.CameraLightOn(false);
+    		return true;
+    	}
+    	else
+    		return false;
     }
 
     // Called once after isFinished returns true
