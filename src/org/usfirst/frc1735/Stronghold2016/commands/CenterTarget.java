@@ -49,7 +49,7 @@ public class CenterTarget extends Command {
     	// so that we can tune the final value.
     	//
     	// First, turn on the lights
-    	Robot.vision.CameraLightOn(true);
+    	Robot.vision.cameraLightOn(true);
     	double targetSetpoint = SmartDashboard.getNumber("TargetSetpoint");
     	Robot.pIDVisionDrivetrain.setSetpoint(targetSetpoint);// centered target is ideally a setpoint of 0 (range -1 to +1)
     	Robot.pIDVisionDrivetrain.enable(); // Enable the PID!
@@ -86,7 +86,7 @@ public class CenterTarget extends Command {
     
     // Called once after isFinished returns true
     protected void end() {
-		Robot.vision.CameraLightOn(false);
+		Robot.vision.cameraLightOn(false);
     	Robot.pIDVisionDrivetrain.disable(); // turn off the PID!
     }
 

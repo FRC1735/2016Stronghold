@@ -47,7 +47,7 @@ public class CameraLight extends Command {
     protected void execute() {
     	// polarity/definition of the input state is a parameter in the RobotBuilder entry for this command.
     	// Current implementation is true=on.
-    	Robot.vision.CameraLightOn(m_State);
+    	Robot.vision.cameraLightOn(m_State);
     }
 
     // Make this return true when this Command no longer needs to run execute()
