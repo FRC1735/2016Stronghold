@@ -76,10 +76,10 @@ public class Shooter extends Subsystem {
     public void engageShooter(double magnitudeDirection) {
     	//1800 is about the max speed, so start the setPoint approx the right speed
     	double setPoint = magnitudeDirection/1800;
-    	
+    	printRPMs();
     	double leftError = ((magnitudeDirection+getLeftRPM())/magnitudeDirection)*4;
     	double rightError = ((magnitudeDirection-getRightRPM())/magnitudeDirection)*4;
-    	System.out.println(leftError + " " + rightError);
+    	//System.out.println(leftError + " " + rightError);
     	leftMotor.set(-1*Math.max(Math.min(-1*(setPoint+leftError),1.0),-1.0));
     	rightMotor.set(Math.max(Math.min(-1*(setPoint+rightError), 1.0), -1.0));
     }
@@ -192,6 +192,7 @@ public class Shooter extends Subsystem {
     public void engageAutoShooter() {
     	// However, if the SensorOverride button is pressed, bypass all that and just spin the shooter up...
     	if (Robot.isSensorOvrd()){
+    		System.out.println("Overriding shooter to use original pure motor strength from dashboard");
     		engageOriginalShooter(SmartDashboard.getNumber("ShooterStrength"));
     	}
     	else {

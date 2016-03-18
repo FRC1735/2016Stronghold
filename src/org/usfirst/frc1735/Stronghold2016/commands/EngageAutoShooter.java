@@ -43,7 +43,8 @@ public class EngageAutoShooter extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// This calculates range, and spins up the shooter using the PID controllers to the appropriate speed
-    	Robot.shooter.engageAutoShooter();
+    	//Robot.shooter.engageAutoShooter();
+    	Robot.shooter.engageShooter(1100);
     }
 
     // Make this return true when this Command no longer needs to run execute()

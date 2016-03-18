@@ -49,6 +49,7 @@ public class AutoShootSequence extends CommandGroup {
     	// 1) Spin up the shooter to the calculated speed for this distance from the goal.
     	//    (Note:  Command will not complete until the PID says the wheels are at the target speed)
     	addSequential(new EngageAutoShooter());
+    	//addSequential(new EngageSmallPIDAutoShooter());
     	
         // 2) Advance the ball into the shooter for 1 second
         //addParallel (new LoadShooter(-1)); // arg is magnitude (negative here is towards the shooter)

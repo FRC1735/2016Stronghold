@@ -63,6 +63,7 @@ public class Range extends Subsystem {
     	// display the range to console and to SmartDashboard.
     	double range = getRange();
     	SmartDashboard.putNumber("Range (ft)", range);
+    	SmartDashboard.putBoolean("Ball Loaded: ", Robot.feeder.isBallReadyPressed());
     	//Robot.dbgPrintln("Current Range: " + range); // only prints to console if master debug enabled
     }
 }

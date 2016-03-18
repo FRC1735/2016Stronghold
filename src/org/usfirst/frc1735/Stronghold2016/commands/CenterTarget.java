@@ -81,17 +81,12 @@ public class CenterTarget extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.pIDVisionDrivetrain.onTarget())
-    	{
-    		Robot.vision.CameraLightOn(false);
-    		return true;
-    	}
-    	else
-    		return false;
+    	return Robot.pIDVisionDrivetrain.onTarget();
     }
-
+    
     // Called once after isFinished returns true
     protected void end() {
+		Robot.vision.CameraLightOn(false);
     	Robot.pIDVisionDrivetrain.disable(); // turn off the PID!
     }
 

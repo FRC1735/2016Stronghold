@@ -62,10 +62,10 @@ public class Feeder extends Subsystem {
     	RobotMap.feederRoller.set(0);
     	RobotMap.feederLimboBar.set(0);
     }
-    public boolean isFwd(double magnitudeDirection) {
+    public boolean isOutward(double magnitudeDirection) {
     	return magnitudeDirection > 0;
     }
-    public boolean isRvs(double magnitudeDirection) {
+    public boolean isInward(double magnitudeDirection) {
     	return magnitudeDirection < 0;
     }
     

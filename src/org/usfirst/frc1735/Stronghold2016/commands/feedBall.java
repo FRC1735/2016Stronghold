@@ -61,7 +61,8 @@ public class FeedBall extends Command {
     	//    (e.g. the operator presses the trigger again) causing the motor to run for a brief time until
     	//    the isFinished sees the switch is already pressed.  Multiple trigger presses could conceivably
     	//    push the ball forward over time and cause a misfire.
-    	if(!Robot.feeder.isBallReadyPressed() || Robot.feeder.isRvs(m_magnitudeDirection) || Robot.isSensorOvrd()) {
+    	if(!Robot.feeder.isBallReadyPressed() || Robot.feeder.isOutward(m_magnitudeDirection) || Robot.isSensorOvrd()) {
+    		Robot.dbgPrintln("We are running the feeder");
         	Robot.feeder.feedBall(m_magnitudeDirection);
 
     	}
@@ -69,7 +70,7 @@ public class FeedBall extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return (!Robot.isSensorOvrd() && Robot.feeder.isBallReadyPressed()); // if pressed, this command should terminate.  Do not terminate if sensor override is set.
+    	return (!Robot.isSensorOvrd() && Robot.feeder.isInward(m_magnitudeDirection) && Robot.feeder.isBallReadyPressed()); // if pressed, this command should terminate.  Do not terminate if sensor override is set.
     	
     }
 
