@@ -136,11 +136,11 @@ public class Vision extends Subsystem {
     	cameraLightRelay.setDirection(Relay.Direction.kForward);
     	if (onState) {
     		cameraLightRelay.set(Relay.Value.kOn);
-    		SmartDashboard.putBoolean("Camera Light On: ", onState);
+    		SmartDashboard.putBoolean("Camera Light On", onState);
     	}
     	else {
     		cameraLightRelay.set(Relay.Value.kOff);
-    		SmartDashboard.putBoolean("Camera Ligth On: ", onState);
+    		SmartDashboard.putBoolean("Camera Light On", onState);
     	}
     }
     
