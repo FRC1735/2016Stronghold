@@ -30,7 +30,7 @@ public class AutonomousDefenseReach extends CommandGroup {
  
     	// Initial state:  facing backwards directly in front of (any) defense
     	// 1) Drive backwards long enough to get TO the defense (A "Reach")
-        addSequential(new DriveWithLimits(1000, 1.5, -0.75, false, false)); // distance, time, mag, left, right
+        addSequential(new DriveWithLimits(1000, 1.5, -0.75)); // distance, time, mag
 
     } 
 }

@@ -69,7 +69,8 @@ public class CenterTarget extends Command {
     	//    Don't want to choose the one closest to the center because that might actually be the target
     	//    for a different face that's very oblique to our robot position.
     	double xPosition = Robot.vision.getScaledTargetXpos();
-    	SmartDashboard.putNumber("TargetXPos", xPosition);
+    	SmartDashboard.putNumber("TargetXPosScaled", xPosition);
+    	SmartDashboard.putNumber("TargetXPosRaw", Robot.vision.getRawTargetXpos());
     	
      	//
     	// 3) If centered within a reasonable "tolerance", stop the motors (Make this the isFinished() check)

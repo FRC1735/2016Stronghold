@@ -30,24 +30,27 @@ public class AutonomousLowbarShoot extends CommandGroup {
  
     	// Initial state:  facing backwards directly in front of Low Bar defense
     	// 1) Drive backwards long enough to get over low bar and into shooting range
-        addSequential(new DriveWithLimits(1000, 2.5, -0.75, false, false)); // distance, time, mag, left, right
+        addSequential(new DriveWithLimits(1000, 2.5, -0.75)); // distance, time, mag
         
         // MOTION
         // 2) turn mostly around so that we are (roughly) facing the goal
-        addSequential(new DriveWithLimits(100, 0.45, 0.75, true, false)); // d,t,m,l,r
+        addSequential(new DriveWithLimits(100, 0.45, 0.6, true, false)); // d,t,m, left, right
+        // (new method-- untested)
+        //addSequential(new Turn(-120)); // In degrees.  Assumes positive is clockwise.  Just a wrapper around DriveWithLimits
+        
+        //EVENTUALLY.. The full automated sequence will done by this comandGroup:
+        //addSequential(new AutoCenterAndShootSequence());
 
-        //The full automated sequence is done by this comandGroup:
-        addSequential(new AutoCenterAndShootSequence());
-/*        	
+        // This is the full sequence done manually without full calculations...
         // CENTERING
         // 3) center on the target... hopefully
-        addSequential(new CameraLight(true));
-        addSequential (new CenterTarget());
-        addSequential(new CameraLight(false));
+        //addSequential(new CameraLight(true));
+        addSequential (new CenterTarget()); // Turns lights on/off
+        //addSequential(new CameraLight(false));
 
         //SHOOTING
         // 4) start the shooter
-        addSequential (new ShooterStart());
+        addSequential (new ShooterStart()); // Gets RPMs from precompiled value in Robot.java
         // 5) Let the shooter get up to speed (someday the PID will do this and the delay won't be needed)
         addSequential (new Delay(2));
         // 6) Advance the ball into the shooter for 1 second
@@ -56,7 +59,6 @@ public class AutonomousLowbarShoot extends CommandGroup {
         // 7) Foomp.  Ball is gone, so stop the shooter and the loader.
         addSequential (new ShooterStop());
         addSequential (new FeederStop());
-*/
 
         
         // We're done.

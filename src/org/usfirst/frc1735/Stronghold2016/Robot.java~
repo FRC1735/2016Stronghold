@@ -81,9 +81,6 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	// experimental.  TODO:  Remove this, as it doesn't happen early enough to impact CommandGroup initialization
-    	SmartDashboard.putNumber("autoForwardTime", autoForwardTime);
-    	
     	// Camera streaming setup
         ///server = CameraServer.getInstance();
         ///server.setQuality(50);
@@ -128,6 +125,7 @@ public class Robot extends IterativeRobot {
 //        autoChooser.addObject("Backward One Second", new AutonomousBkw());
         autoChooser.addObject("Reach Defense",  new AutonomousDefenseReach());
         autoChooser.addObject("Cross Defense",  new AutonomousDefenseCross());
+        autoChooser.addObject("Lower and Cross Defense",  new AutonomousDefenseLowerAndCross());
         autoChooser.addObject("Low Bar and Shoot", new AutonomousLowbarShoot());
         // Add the chooser widget to the dashboard
         SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
@@ -139,16 +137,16 @@ public class Robot extends IterativeRobot {
 		shooterStrength = prefs.getDouble("shooterStrength", 1); // second arg is a default if var isn't found		
 		// take the prefs value and put it into a dynamic variable.
 		// this allows us to set the DEFAULT value via prefs, but change the value during a match in the SmartDashboard...
-		SmartDashboard.putNumber("ShooterStrength", shooterStrength);
+		//SmartDashboard.putNumber("ShooterStrength", shooterStrength);
 		
 		// This is the INITIAL and DEFAULT value for the motor compensation term
 		motorCompensation = prefs.getDouble("motorCompensation", 1); // second arg is a default if var isn't found
 		// take the prefs value and put it into a dynamic variable.
 		// this allows us to set the DEFAULT value via prefs, but change the value during a match in the SmartDashboard...
-		SmartDashboard.putNumber("MotorCompensation", motorCompensation);
+		//SmartDashboard.putNumber("MotorCompensation", motorCompensation);
 		
-		// Set the initial value (compiled in; not in prefs) for shooter RPM (Used by BasicShoot only)
-		SmartDashboard.putNumber("ShooterRPM", shooterRPM);
+		// Set the initial value (compiled in; not in prefs) for shooter RPM
+		SmartDashboard.putNumber("Target RPM", shooterRPM);
 		
 		// Set the initial value (currently compiled in, but could become a pref) for the target setpoint.
 		// This allows us to change what is "centered" if the camera offset requires a nonzero setpoint to center the target.
@@ -254,6 +252,6 @@ public class Robot extends IterativeRobot {
 	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
 	// Variable for holding the desired target centering setpoint.
 	// hard code here, but perhaps store it in the prefs widget at some future time?
-	public static double targetSetpoint = 0.1;
+	public static double targetSetpoint = 0.0;
 	
 }

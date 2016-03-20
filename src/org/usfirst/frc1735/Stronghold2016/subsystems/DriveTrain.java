@@ -112,5 +112,8 @@ public class DriveTrain extends Subsystem {
     public void stop() {
     	robotDrive21.tankDrive(0, 0); //left, right
     }
+    
+    // Member variables
+    public double m_wheelDistancePerRobotRevolution = 2.5; // How far does the encoded wheel travel for one robot revolution?  Empirically determined.
 }
 

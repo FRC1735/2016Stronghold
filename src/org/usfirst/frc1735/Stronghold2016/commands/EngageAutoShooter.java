@@ -12,6 +12,8 @@
 package org.usfirst.frc1735.Stronghold2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc1735.Stronghold2016.Robot;
 
 /**
@@ -44,7 +46,8 @@ public class EngageAutoShooter extends Command {
     protected void execute() {
     	// This calculates range, and spins up the shooter using the PID controllers to the appropriate speed
     	//Robot.shooter.engageAutoShooter();
-    	Robot.shooter.engageShooter(1100);
+    	
+    	Robot.shooter.engageShooter(SmartDashboard.getNumber("Target RPM"));
     }
 
     // Make this return true when this Command no longer needs to run execute()

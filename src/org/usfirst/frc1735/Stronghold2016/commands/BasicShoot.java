@@ -41,7 +41,8 @@ public class BasicShoot extends Command {
     protected void initialize() {
     	// Setting this in initialize means we only change strength when starting the command,
     	// and not dynamically while the command is running.
-    	m_shooterRPM = SmartDashboard.getNumber("ShooterRPM");
+    	//m_shooterRPM = SmartDashboard.getNumber("ShooterRPM");
+    	m_shooterRPM = Robot.shooterRPM;
     	//Robot.dbgPrintln("Shooter RPM target is set to " + m_shooterRPM);
     	
     	// Convert RPM to motor input via an equation in the shooter subsystem.
