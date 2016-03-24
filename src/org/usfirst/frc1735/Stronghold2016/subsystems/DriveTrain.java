@@ -114,6 +114,6 @@ public class DriveTrain extends Subsystem {
     }
     
     // Member variables
-    public double m_wheelDistancePerRobotRevolution = 2.5; // How far does the encoded wheel travel for one robot revolution?  Empirically determined.
+    public double m_wheelDistancePerRobotRevolution = 7.46269; // How far does the encoded wheel travel for one robot revolution?  Empirically determined.
 }
 

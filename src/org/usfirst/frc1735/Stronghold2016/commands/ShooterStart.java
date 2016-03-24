@@ -47,18 +47,20 @@ public class ShooterStart extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//System.out.println("Hi!  Engaging shooter to " + m_shooterRPM + " RPM");
     	Robot.shooter.engageShooter(m_shooterRPM);
+    	Robot.shooter.printRPMs();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true; // We turn the shooter on and leave it on.  Command exits immediately.
+        return false; // We turn the shooter on and leave it on.
         // killing the shooter requires sending a separate STOP command, or an interrupt/cancel.
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	// don't stop when command ends
+    	Robot.shooter.stop();
    }
 
     // Called when another command which requires one or more of the same

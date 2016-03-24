@@ -87,7 +87,7 @@ public class CenterTarget extends Command {
     
     // Called once after isFinished returns true
     protected void end() {
-		Robot.vision.cameraLightOn(false);
+		//Robot.vision.cameraLightOn(false);
     	Robot.pIDVisionDrivetrain.disable(); // turn off the PID!
     }
 

@@ -123,7 +123,7 @@ public class DriveWithLimits extends Command {
         double rightTravel = Math.abs(currentRightDistance - m_rightStartDistance);
         //TODO:  Should we stop when EITHER reaches the limit?  Or when BOTH reach the limit??
         boolean encoderDistanceReached = (leftTravel > Math.abs(m_distanceLimit)) || (rightTravel > Math.abs(m_distanceLimit));
-        
+        //System.out.println("Left travel: " + leftTravel + " Right travel: " + rightTravel);
         // get current range.  Note that this can be noisy and even NEGATIVE.
         double currentRangeDistance = Robot.range.getRange();
         double rangeTravelDistance = m_rangeStartDistance - currentRangeDistance;
@@ -136,14 +136,16 @@ public class DriveWithLimits extends Command {
         boolean rangeFromObstacleReached = (currentRangeDistance <= m_distanceLimit);
         if (m_useDistanceFromObstacle) {
         	// Override the meaning of the range variable if requested
+        	System.out.println("Rangefinder says we are " + currentRangeDistance + " from target");
         	rangeDistanceReached = rangeFromObstacleReached;
         }
         
         //System.out.println("m_distanceLimit = " + m_distanceLimit);
         //System.out.println("R distance traveled is " + rightTravel + " and L distance traveled is " + leftTravel);
         //boolean finished = (timedOut || encoderDistanceReached || rangeDistanceReached);
-        //boolean finished = (timedOut || encoderDistanceReached);
-        boolean finished = (timedOut);
+        boolean finished = (timedOut || encoderDistanceReached);
+        if (m_useDistanceFromObstacle) finished = finished || rangeDistanceReached;
+        //boolean finished = (timedOut);
  
         //System.out.println("isFinished returns status= " + finished);
         // Print out the reason(s) why we finished:

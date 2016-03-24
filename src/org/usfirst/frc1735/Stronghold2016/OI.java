@@ -57,6 +57,7 @@ public class OI {
     public JoystickButton loadForward;
     public JoystickButton loadReverse;
     public JoystickButton centerTarget;
+    public JoystickButton stopShooter;
     public Joystick joyRight;
     public JoystickButton feedForward;
     public JoystickButton feedReverse;
@@ -93,19 +94,22 @@ public class OI {
         feedForward.whileHeld(new FeedBall(1));
         joyRight = new Joystick(1);
         
+        stopShooter = new JoystickButton(joyRight, 9);
+        stopShooter.whenPressed(new ShooterStop());
         centerTarget = new JoystickButton(joyRight, 10);
-        centerTarget.whileHeld(new CenterTarget());
+        centerTarget.whenPressed(new CenterTargetDouble());
         loadReverse = new JoystickButton(joyRight, 4);
         loadReverse.whileHeld(new LoadShooter(-1));
         loadForward = new JoystickButton(joyRight, 5);
         loadForward.whileHeld(new LoadShooter(1));
         shooterEngage = new JoystickButton(joyRight, 1);
-        shooterEngage.whileHeld(new AutoShootSequence());
+        shooterEngage.whileHeld(new ShooterStart());
         joyLeft = new Joystick(0);
         
 
 
         // SmartDashboard Buttons
+        SmartDashboard.putData("AutonomousBkw", new AutonomousBkw());
         SmartDashboard.putData("CenterTarget", new CenterTarget());
         SmartDashboard.putData("Camera Light: Off", new CameraLight(false));
         SmartDashboard.putData("Camera Light: On", new CameraLight(true));

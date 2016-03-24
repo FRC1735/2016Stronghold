@@ -59,7 +59,18 @@ public class Vision extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     
-    public double getRawTargetXpos() {
+public boolean isTargetVisible() {
+	//if we are getting at least one data value in the GRIP table, something must be visible.
+	// This is primarily used for human consumption on the SmartDashboard.
+	double[] defaultValue = new double[0]; // set up a default value in case the table isn't published yet
+
+	// Get all needed table items at the same time, in case the table updates between reads.
+	// (could end up with different array sizes)
+	double[] targetX = table.getNumberArray("centerX", defaultValue);
+	return (targetX.length >= 1);
+}
+
+public double getRawTargetXpos() {
     	double xPos; // return value
     	
     	// 1) Get the current list of targets found.  There might be more than one visible at a time
@@ -84,7 +95,7 @@ public class Vision extends Subsystem {
 	    	else xPos = targetX[0];
 	    	return xPos;
 		}
-   	
+ 
     	// For initial debug, just print out the table so we can see what's going on
 /*
     	System.out.print("centerX: ");
@@ -118,7 +129,8 @@ public class Vision extends Subsystem {
     	
     	return xPos;
     }
-    
+
+
     public double getScaledTargetXpos() {
     	// get the raw position
     	double raw = getRawTargetXpos();
@@ -132,7 +144,63 @@ public class Vision extends Subsystem {
     	double scaled = (raw-xRes/2)/(xRes/2);
     	return scaled;
     }
-    
+
+    public double getRawTargetWidth() {
+    	double targetWidth; // return value
+    	
+    	// 1) Get the current list of targets found.  There might be more than one visible at a time
+       	// First step: get the vision system data for the target
+    	double[] defaultValue = new double[0]; // set up a default value in case the table isn't published yet
+
+    	// Get all needed table items at the same time, in case the table updates between reads.
+    	// (could end up with different array sizes)
+    	double[] targetWidthArr = table.getNumberArray("width", defaultValue);
+		double[] areas = table.getNumberArray("area", defaultValue);
+		if (targetWidthArr.length != areas.length) {
+			// here the table updated in the middle; we'll have to punt
+			System.out.println("NetworkTable udpated in the middle of getRawTargetWidth; returning first valid entry");
+	    	if (targetWidthArr.length==0)
+	    	{
+	    		// we didn't find ANY object.  Return a width of zero.
+	    		targetWidth = 0;
+	    	}
+	    	else targetWidth = targetWidthArr[0];
+	    	return targetWidth;
+		}
+ 
+    	// For initial debug, just print out the table so we can see what's going on
+/*
+    	System.out.print("width: ");
+    	for (double wval : targetWidthVal) { // for each target found,
+    		System.out.print(wval + " ");
+    	}
+    	System.out.println();
+*/    	
+    	
+    	// 2) Choose the one that has the largest area.  This is PROBABLY the closest target (and most in-line)
+    	//    Don't want to choose the one closest to the center because that might actually be the target
+    	//    for a different face that's very oblique to our robot position.
+		int largestIdx = 0;
+    	if (targetWidthArr.length > 1) {
+    		double largest = 0;
+    		for (int c = 0; c < areas.length; c++) {
+    			if (areas[c] > largest){
+    				largest = areas[c];
+    				largestIdx = c;
+    			}
+    		}
+    	}
+    	
+    	if (targetWidthArr.length==0)
+    	{
+    		// we didn't find ANY object.  Return a zer-width answer
+    		targetWidth = 0;
+    	}
+    	else targetWidth = targetWidthArr[largestIdx]; // if only one value, largestIdx was already initialized to zero
+    	
+    	return targetWidth;
+    }
+
     public void cameraLightOn(boolean onState) {
     	// If onState is true, turn the camera light relay on.
     	// Otherwise, turn it off.
@@ -147,6 +215,24 @@ public class Vision extends Subsystem {
     	// Print the new state of the light to the SmartDashboard
 		SmartDashboard.putBoolean("Camera Light On", onState);
     }
-    
+    public double calculateDistanceFromCamera() {
+    	//d = Tft*FOVpixel/(2*Tpixel*tan(theta))
+    	double distance, targetWidthFeet, targetWidthPixels, FOVFeet, FOVPixels, theta;
+    	theta = 26.565; // empirically determined
+    	targetWidthFeet = 20/12; // 20" width per game rules, outside edge to outside edge
+    	//targetWidthPixels = 44.1379; // calculated from measured FOVpixel FOVfeet, and targetWidthFeet at d=12'.
+    	//FOVFeet = 145/12; //FOVFeet measured in inches at d=12'
+    	FOVPixels = 320;
+    	
+    	// How wide is the target in pixels?
+    	targetWidthPixels = getRawTargetWidth();
+    	// If we don't see a target, the width will be zero.
+    	// Punt by setting the distance to be something in the middle... 12' sounds good.
+    	if (targetWidthPixels > 0)
+    		distance = (targetWidthFeet*FOVPixels)/(2*targetWidthPixels*Math.tan(theta));
+    	else
+    		distance = 12; //Arbitrary but legal value for "punting"...
+    	return distance;
+    }
 }
 

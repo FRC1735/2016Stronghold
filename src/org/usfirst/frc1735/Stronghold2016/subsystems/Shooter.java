@@ -144,7 +144,7 @@ public class Shooter extends Subsystem {
     	// 19		1400
     	// 22		1800
     	
-    	// This makes three distinct regions:
+    	// This originally made three distinct regions:
     	// d <= 10' == 1700
     	// 10 < d <= 17 == 1100
     	// >17, linear y=mx+b, with m=700/5=140. => 1800=140*22+b => b=-1280
@@ -199,7 +199,7 @@ public class Shooter extends Subsystem {
     }
     
     //Spin up the shooter using the intermediate PID developed while debugging.
-    // because this isn't a PID, we need to do our own tolerance/onTarget checking in the command that calls this.
+    // because this isn't a full PID, we need to do our own tolerance/onTarget checking in the command that calls this.
     // That means the caller needs to know what RPM we were targeting, so return that value.
     public double engageSmallPIDShooter() {
        	// First, find out our current distance to the target

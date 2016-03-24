@@ -63,8 +63,17 @@ public class Range extends Subsystem {
     	// display the range to console and to SmartDashboard.
     	double range = getRange();
     	SmartDashboard.putNumber("Range (ft)", range);
+    	
+    	// Stick this here because the thread is always running...
     	SmartDashboard.putBoolean("Ball Loaded: ", Robot.feeder.isBallReadyPressed());
     	//Robot.dbgPrintln("Current Range: " + range); // only prints to console if master debug enabled
+    	
+    	// We also calculate range via the vision system.
+    	double visionRange = Robot.vision.calculateDistanceFromCamera();
+    	SmartDashboard.putNumber("Camera Range (ft)", visionRange);
+    	
+    	//Provide a visual indicator of whether we can see a target at all
+    	SmartDashboard.putBoolean("Target Visible: ", Robot.vision.isTargetVisible());
     }
 }
 

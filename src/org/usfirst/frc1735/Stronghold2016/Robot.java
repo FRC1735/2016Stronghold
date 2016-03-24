@@ -247,12 +247,12 @@ public class Robot extends IterativeRobot {
     // Variable for holding the shooter strength stored in the prefs widget
 	public static double shooterStrength;
 	// Variable for holding the motor compensation stored in the prefs widget
-	public static double motorCompensation;
+	public static double motorCompensation; //Ideal motor compensation is .985
 	// default/initial time for testing the autonomousVariableFwd command
 	public static double autoForwardTime = 1.0;
 	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
 	// Variable for holding the desired target centering setpoint.
 	// hard code here, but perhaps store it in the prefs widget at some future time?
-	public static double targetSetpoint = 0.0;
+	public static double targetSetpoint = -0.075;
 	
 }
