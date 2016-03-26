@@ -229,7 +229,8 @@ public double getRawTargetXpos() {
     	// If we don't see a target, the width will be zero.
     	// Punt by setting the distance to be something in the middle... 12' sounds good.
     	if (targetWidthPixels > 0)
-    		distance = (targetWidthFeet*FOVPixels)/(2*targetWidthPixels*Math.tan(theta));
+    		//distance = (targetWidthFeet*FOVPixels)/(2*targetWidthPixels*Math.tan(theta));
+    		distance = 533.3333/targetWidthPixels;
     	else
     		distance = 12; //Arbitrary but legal value for "punting"...
     	return distance;

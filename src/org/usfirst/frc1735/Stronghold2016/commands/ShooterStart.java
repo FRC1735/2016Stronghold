@@ -41,7 +41,8 @@ public class ShooterStart extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	//m_shooterStrength = SmartDashboard.getNumber("ShooterStrength");
-    	m_shooterRPM = SmartDashboard.getNumber("Target RPM");
+    	//m_shooterRPM = SmartDashboard.getNumber("Target RPM");
+    	m_shooterRPM = (double)Robot.shooter.shooterRPMChooser.getSelected();
 
     }
 

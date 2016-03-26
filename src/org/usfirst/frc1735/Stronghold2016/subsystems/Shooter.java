@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -44,6 +45,7 @@ public class Shooter extends Subsystem {
     private final Encoder shootRightEncoder = RobotMap.shooterRightPIDShootRightEncoder;
     //private final ShooterLeftPID leftPID = Robot.shooterLeftPID;
 
+    public SendableChooser shooterRPMChooser;
 
 // Add a constructor to set the sample rate
     public Shooter() {
@@ -55,7 +57,19 @@ public class Shooter extends Subsystem {
     	System.out.println("Default value of samplesToAverage for encoder is: " +
     			shootLeftEncoder.getSamplesToAverage());
 
-    	//shootLeftEncoder.setSamplesToAverage(samplesToAverage);
+    	shooterRPMChooser = new SendableChooser();
+    	shooterRPMChooser.addDefault("1100",  (double)1100);
+    	shooterRPMChooser.addObject("1200",  (double)1200);
+    	shooterRPMChooser.addObject("1300",  (double)1300);
+    	shooterRPMChooser.addObject("1400",  (double)1400);
+    	shooterRPMChooser.addObject("1500",  (double)1500);
+    	shooterRPMChooser.addObject("1600",  (double)1600);
+    	shooterRPMChooser.addObject("1700",  (double)1700);
+    	shooterRPMChooser.addObject("1800",  (double)1800);
+        // Add the chooser widget to the dashboard
+        SmartDashboard.putData("Shooter RPM Chooser", shooterRPMChooser);
+
+        //shootLeftEncoder.setSamplesToAverage(samplesToAverage);
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
