@@ -74,8 +74,8 @@ public class DriveTrain extends Subsystem {
         // Apply selective proportional reduction.
         // Unless the Driver right Button2 is pressed, reduce speed by 25%
         if (!Robot.oi.turboMode.get()) {
-        	driveLeft = driveLeft * 0.75; // FWIW, the 2015 robot ran at 66%
-        	driveRight = driveRight * 0.75;
+        	driveLeft = driveLeft * 0.80; // FWIW, the 2015 robot ran at 66%
+        	driveRight = driveRight * 0.80;
         }
        
         
