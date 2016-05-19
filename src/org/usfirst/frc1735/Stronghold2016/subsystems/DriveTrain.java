@@ -114,7 +114,7 @@ public class DriveTrain extends Subsystem {
     	// driving straight.  (e.g. another modifier button that reads only one joystick and
     	// uses motorCompensation to drive perfectly straight at the desired speed)
     	
-        // Apply smoothing
+        // Apply smoothing to limit acceleration and "Wheelies"
         // ---------------
     	// Because we need to modify the drive magnitude AND update the history,
     	// and because we can't modify args (which are passed by reference),
@@ -235,7 +235,7 @@ public class DriveTrain extends Subsystem {
     		//     if the delta is >0 then we increased too much and need to subtract the overage.
     		//     if the delta is <0 then we decreased too much and need to add the overage.
     		smoothedDriveVal = (deltaVal > 0) ? (driveVal - overage) : (driveVal + overage); 
-        	System.out.println("Drivetrain input for " + driveSide.toString() + "was " + driveVal + "; smoothing this to " + smoothedDriveVal);
+        	//System.out.println("Drivetrain input for " + driveSide.toString() + " was " + driveVal + "; smoothing this to " + smoothedDriveVal);
     	}
     	joyHistory.add(smoothedDriveVal);
     	return smoothedDriveVal;
@@ -249,6 +249,6 @@ public class DriveTrain extends Subsystem {
     private int m_historyDepth = 1; // How many prior values to average for the delta
     // Assume we take about 0.6 sec to get to full speed (1.0) from dead stop (0.0).
     // at 20ms polling period (50 ticks/sec), that is about 30 ticks.  Each tick is therefore 1/30 of max change = .033333
-    private double m_maxAccel = 0.03333;
+    private double m_maxAccel = 0.04; //Initial was 0.03333
 }
 
