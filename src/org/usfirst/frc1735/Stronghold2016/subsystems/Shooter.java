@@ -58,7 +58,8 @@ public class Shooter extends Subsystem {
     			shootLeftEncoder.getSamplesToAverage());
 
     	shooterRPMChooser = new SendableChooser();
-    	shooterRPMChooser.addDefault("1100",  (double)1100);
+    	shooterRPMChooser.addObject("1100",  (double)1100);
+    	shooterRPMChooser.addDefault("1135",  (double)1135);
     	shooterRPMChooser.addObject("1200",  (double)1200);
     	shooterRPMChooser.addObject("1300",  (double)1300);
     	shooterRPMChooser.addObject("1400",  (double)1400);

@@ -128,6 +128,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Lower and Cross Defense",  new AutonomousDefenseLowerAndCross());
         autoChooser.addObject("Cross Defense Fullspeed", new AutonomousDefenseCrossFullspeed());
         autoChooser.addObject("Low Bar and Shoot", new AutonomousLowbarShoot());
+        autoChooser.addObject("Cross Center and Shoot", new AutonomousCenterAndShoot());
         // Add the chooser widget to the dashboard
         SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
         
@@ -250,7 +251,7 @@ public class Robot extends IterativeRobot {
 	public static double motorCompensation; //Ideal motor compensation is .985
 	// default/initial time for testing the autonomousVariableFwd command
 	public static double autoForwardTime = 1.0;
-	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
+	public static double shooterRPM = 1135; // a default speed for the shooter.  Used only for BasicShooter command.
 	// Variable for holding the desired target centering setpoint.
 	// hard code here, but perhaps store it in the prefs widget at some future time?
 	public static double targetSetpoint = -0.070; //was -0.075 at end of Rhode Island qualifiers.  Was -0.072 at beginning of Hartford.

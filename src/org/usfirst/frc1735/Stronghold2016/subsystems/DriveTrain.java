@@ -85,7 +85,23 @@ public class DriveTrain extends Subsystem {
         	driveLeft = driveLeft * 0.80; // FWIW, the 2015 robot ran at 66%
         	driveRight = driveRight * 0.80;
         }
-       
+      
+        // Apply smoothing to limit acceleration and "Wheelies"
+        // ---------------
+    	// Because we need to modify the drive magnitude AND update the history,
+    	// and because we can't modify args (which are passed by reference),
+    	// and because it's very clunky to return multiple values that are of different types,
+    	// we pass in a flag to the routine as to which History we are modifying, and then let the routine
+    	// internally modify the History.
+    	// Yeah, it's not elegant.
+        
+        // Early feedback is that smoothing has a deterimental effect on turns.
+        // So, only apply if magnitude of joysticks is in the same direction.
+        if(driveLeft * driveRight >= 0) {
+            driveLeft  = applyInputSmoothing(driveLeft,  DriveSides.DRVLEFT);
+            driveRight = applyInputSmoothing(driveRight, DriveSides.DRVRIGHT);
+        }
+
         
         //We may need to drive the robot BACKWARDS from the joysticks on a frequent basis.
         // Add a button that allows us to reverse what is the "Front" of the robot to make this easier...
@@ -113,18 +129,7 @@ public class DriveTrain extends Subsystem {
     	// it *could* be moved back here if we needed some kind of teleoperated assist for
     	// driving straight.  (e.g. another modifier button that reads only one joystick and
     	// uses motorCompensation to drive perfectly straight at the desired speed)
-    	
-        // Apply smoothing to limit acceleration and "Wheelies"
-        // ---------------
-    	// Because we need to modify the drive magnitude AND update the history,
-    	// and because we can't modify args (which are passed by reference),
-    	// and because it's very clunky to return multiple values that are of different types,
-    	// we pass in a flag to the routine as to which History we are modifying, and then let the routine
-    	// internally modify the History.
-    	// Yeah, it's not elegant.
-        driveLeft  = applyInputSmoothing(driveLeft,  DriveSides.DRVLEFT);
-        driveRight = applyInputSmoothing(driveRight, DriveSides.DRVRIGHT);
-        
+    	        
         robotDrive21.tankDrive(driveLeft, driveRight); // Optional third arg bool SquaredInputs, when true, decreases sensitivity at low speeds.
     }
 
