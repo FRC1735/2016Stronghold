@@ -97,7 +97,7 @@ public class OI {
         stopShooter = new JoystickButton(joyRight, 9);
         stopShooter.whenPressed(new ShooterStop());
         centerTarget = new JoystickButton(joyRight, 10);
-        centerTarget.whileHeld(new CenterTargetDouble());
+        centerTarget.whenPressed(new CenterTargetDouble());
         loadReverse = new JoystickButton(joyRight, 4);
         loadReverse.whileHeld(new LoadShooter(-1));
         loadForward = new JoystickButton(joyRight, 5);
@@ -110,6 +110,7 @@ public class OI {
 
         // SmartDashboard Buttons
         SmartDashboard.putData("AutonomousBkw", new AutonomousBkw());
+        SmartDashboard.putData("AutonomousCenterAndShoot", new AutonomousCenterAndShoot());
         SmartDashboard.putData("CenterTarget", new CenterTarget());
         SmartDashboard.putData("Camera Light: Off", new CameraLight(false));
         SmartDashboard.putData("Camera Light: On", new CameraLight(true));

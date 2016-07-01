@@ -253,6 +253,6 @@ public class Robot extends IterativeRobot {
 	public static double shooterRPM = 1100; // a default speed for the shooter.  Used only for BasicShooter command.
 	// Variable for holding the desired target centering setpoint.
 	// hard code here, but perhaps store it in the prefs widget at some future time?
-	public static double targetSetpoint = -0.075;
+	public static double targetSetpoint = -0.070; //was -0.075 at end of Rhode Island qualifiers.  Was -0.072 at beginning of Hartford.
 	
 }

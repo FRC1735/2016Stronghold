@@ -235,5 +235,15 @@ public double getRawTargetXpos() {
     		distance = 12; //Arbitrary but legal value for "punting"...
     	return distance;
     }
+    
+    public double getTargetOffsetDegrees() {
+    	// Given theta = 26.565 from center to edge of FOV (empirically determined; see above)
+    	// if the raw pixel distance over that angle is XRes/2=160, then each pixel off-center is 26.565/160 = 0.16603125 degrees
+    	// PID system assumes + values for offset are to the right. (hence the negatives for P,I,D)
+    	// offset == raw-160+setpoint. If positive, is offset to the right of center.  setpoint needs to be in pixels, not scaled to +/-1
+    	// Our answer is therefore num_pixels_offset multiplied by degrees_per_pixel:
+    	double setpointPixels = Robot.targetSetpoint * (xRes/2);
+    	return (getRawTargetXpos()-(xRes/2)+setpointPixels) * (26.565/(xRes/2));
+    }
 }
 
