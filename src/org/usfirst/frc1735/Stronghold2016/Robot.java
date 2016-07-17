@@ -14,6 +14,7 @@ package org.usfirst.frc1735.Stronghold2016;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -75,6 +76,16 @@ public class Robot extends IterativeRobot {
 
     // High-pass filter.  Any joystick absolute value less than this should be clamped to zero.
     public static double m_joystickFilter = 0.15;
+
+    
+    // ============================
+    // Performance Analysis support
+    // ============================
+    double loopTimeCurrent;
+    double loopTimePrev;
+    double loopTimeDifference;
+    double localTimeCurrent;
+    double localTimeDifference;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -163,6 +174,13 @@ public class Robot extends IterativeRobot {
             e.printStackTrace();
         }
  */
+		
+		// =============
+		// Perf Analysis
+		// =============
+		// Display the scheduler on the smart dashboard so we can see what commands are actually running
+		//SmartDashboard.putData(Scheduler.getInstance());
+
     }
 
     /**
@@ -215,7 +233,21 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	// =================
+    	// Perf analysis
+    	// =================
+    	loopTimeCurrent = Timer.getFPGATimestamp();
+    	loopTimeDifference = Math.round((loopTimeCurrent - loopTimePrev) * 1000);
+    	loopTimePrev = loopTimeCurrent;
+    	System.out.println("Loop Process Time: " + loopTimeDifference + "ms");
+
         Scheduler.getInstance().run();
+        
+        localTimeCurrent = Timer.getFPGATimestamp();
+        localTimeDifference = Math.round((loopTimeCurrent - localTimeCurrent) * 1000);
+    	System.out.println("Local Process Time: " + localTimeDifference + "ms");
+    	
+    	
     }
 
     /**
